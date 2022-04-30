@@ -22,9 +22,9 @@ const PostSchema = new mongoose.Schema({
     default: ''
   },
   team_id: {
-      type: Schema.Types.ObjectId,
-      required: true,
-      ref: 'Team'
+    type: Schema.Types.ObjectId,
+    required: true,
+    ref: 'Team'
   }
 });
 
