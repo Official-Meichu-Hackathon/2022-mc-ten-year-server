@@ -37,10 +37,10 @@ const TeamSchema = new mongoose.Schema({
   }]
 });
 
-UserSchema.index({ 
+TeamSchema.index({
   year: -1,
-	ctr: -1,
-	upvote: -1,
+  ctr: -1,
+  upvote: -1
 });
 
 export default mongoose.model('Team', TeamSchema);
