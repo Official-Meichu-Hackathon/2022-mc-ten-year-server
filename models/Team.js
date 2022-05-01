@@ -38,7 +38,7 @@ const TeamSchema = new mongoose.Schema({
 });
 
 UserSchema.index({ 
-    year: -1,
+  year: -1,
 	ctr: -1,
 	upvote: -1,
 });
