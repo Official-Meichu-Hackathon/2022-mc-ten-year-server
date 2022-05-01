@@ -43,4 +43,4 @@ UserSchema.index({
 	upvote: -1,
 });
 
-export default mongoose.model('User', TeamSchema);
+export default mongoose.model('Team', TeamSchema);
