@@ -18,7 +18,7 @@ const CompetitorSchema = new mongoose.Schema({
     required: false
   },
   team_id: {
-    type: Schema.Types.ObjectId,
+    type: mongoose.Schema.Types.ObjectId,
     required: true,
     ref: 'Team' 
   },
