@@ -94,7 +94,6 @@ const userController = {
   },
   async modifyCurrentUser(req, res) {
     const rule = {
-      _id: idRule,
       isAdmin: {
         type: 'forbidden'
       },
@@ -106,10 +105,7 @@ const userController = {
         allowEmpty: false,
         min: 6
       }
-    //   goodPost: {
-    //     type: 'array',
-    //     items: idRule
-    //   },
+      // goodPost: { ...idRule, optional: true }
     //   questions: {
     //     type: 'array',
     //     items: idRule
@@ -118,6 +114,11 @@ const userController = {
 
     try {
       validator.validate(req.body, rule);
+      if (req.body.goodPost) {
+        const data = await service.user.findOne({ _id: req.user._id });
+        data.goodPost.push(req.body.goodPost);
+        req.body.goodPost = data.goodPost;
+      }
       const user = await service.user.updateOne(req.body);
       res.json(user);
     } catch (error) {
