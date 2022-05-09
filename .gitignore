@@ -4,3 +4,5 @@ public/*
 .env.production
 private.key
 public.key.pub
+dev_tenYear.key
+dev_tenYear.key.pub
