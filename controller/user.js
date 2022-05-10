@@ -92,6 +92,60 @@ const userController = {
       res.status(400).json({ message: `Failed to getUsers, ${error}` });
     }
   },
+  // TODO: unable to delete goodPost, questions
+  async modifyUser(req, res) {
+    const rule = {
+      isAdmin: {
+        type: 'forbidden'
+      },
+      username: {
+        type: 'string',
+        allowEmpty: false,
+        min: 6,
+        optional: true
+      },
+      password: {
+        type: 'string',
+        allowEmpty: false,
+        min: 6
+      },
+      goodPost: { ...idRule, optional: true },
+      questions: { ...idRule, optional: true }
+    };
+
+    try {
+      validator.validate(req.body, rule);
+      // goodPost
+      if (req.body.goodPost) {
+        const data = await service.user.findOne({ _id: req.body._id });
+        // check if the post exist in PostSchema
+        const foundPost = data.goodPost.some((x) => x.equals(req.body.goodPost));
+        if (foundPost) throw new Error('goodPost already exist');
+
+        // add the new posts to the params to be updated
+        data.goodPost.push(req.body.goodPost);
+        req.body.goodPost = data.goodPost;
+      }
+
+      // Question
+      if (req.body.questions) {
+        const data = await service.user.findOne({ _id: req.body._id });
+        // check if the question exist in QuestionSchema
+        const foundQuestion = data.questions.some((x) => x.equals(req.body.questions));
+        if (foundQuestion) throw new Error('question already exist');
+
+        // add the new questions to the params to be updated
+        data.questions.push(req.body.questions);
+        req.body.questions = data.questions;
+      }
+      const user = await service.user.updateOne(req.body);
+      res.json(user);
+    } catch (error) {
+      logger.error('[User Controller] Failed to modifyUser:', error);
+      res.status(400).json({ message: `Failed to modifyUser, ${error}` });
+    }
+  },
+  // TODO: fix bug: unable to delete goodPost, questions
   async modifyCurrentUser(req, res) {
     const rule = {
       isAdmin: {
@@ -104,26 +158,44 @@ const userController = {
         type: 'string',
         allowEmpty: false,
         min: 6
-      }
-      // goodPost: { ...idRule, optional: true }
-    //   questions: {
-    //     type: 'array',
-    //     items: idRule
-    //   }
+      },
+      goodPost: { ...idRule, optional: true },
+      questions: { ...idRule, optional: true }
     };
 
     try {
       validator.validate(req.body, rule);
+
+      // goodPost
       if (req.body.goodPost) {
         const data = await service.user.findOne({ _id: req.user._id });
+        // check if the post exist in PostSchema
+        const foundPost = data.goodPost.some((x) => x.equals(req.body.goodPost));
+        if (foundPost) throw new Error('goodPost already exist');
+
+        // add the new posts to the params to be updated
         data.goodPost.push(req.body.goodPost);
         req.body.goodPost = data.goodPost;
       }
+
+      // Question
+      if (req.body.questions) {
+        // console.log('question');
+        const data = await service.user.findOne({ _id: req.user._id });
+        // check if the question exist in QuestionSchema
+        const foundQuestion = data.questions.some((x) => x.equals(req.body.questions));
+        if (foundQuestion) throw new Error('question already exist');
+
+        // add the new questions to the params to be updated
+        data.questions.push(req.body.questions);
+        req.body.questions = data.questions;
+      }
+      req.body._id = req.user._id;
       const user = await service.user.updateOne(req.body);
       res.json(user);
     } catch (error) {
-      logger.error('[User Controller] Failed to modifyUser:', error);
-      res.status(400).json({ message: `Failed to modifyUser, ${error}` });
+      logger.error('[User Controller] Failed to modifyCurrentUser:', error);
+      res.status(400).json({ message: `Failed to modifyCurrentUser, ${error}` });
     }
   },
   async removeUser(req, res) {

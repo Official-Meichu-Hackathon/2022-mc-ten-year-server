@@ -10,6 +10,7 @@ userRouter.post('/getCurrentUser', auth(), controller.user.getCurrentUser);
 userRouter.post('/getUser', auth(true), controller.user.getUser);
 userRouter.post('/getUsers', auth(true), controller.user.getUsers);
 userRouter.post('/modifyCurrentUser', auth(), controller.user.modifyCurrentUser);
+userRouter.post('/modifyUser', auth(true), controller.user.modifyUser);
 userRouter.post('/removeUser', auth(true), controller.user.removeUser);
 userRouter.post('/removeUsers', controller.user.removeUsers);
 
