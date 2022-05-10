@@ -15,12 +15,12 @@ const UserSchema = new mongoose.Schema({
     required: true
   },
   goodPost: [{
-    type: Schema.Types.ObjectId,
+    type: mongoose.Schema.Types.ObjectId,
     required: true,
     ref: 'Post' // fileSchema
   }],
   questions: [{
-    type: Schema.Types.ObjectId,
+    type: mongoose.Schema.Types.ObjectId,
     required: true,
     ref: 'Questions'
   }]
