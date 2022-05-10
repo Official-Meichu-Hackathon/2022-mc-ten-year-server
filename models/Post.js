@@ -14,7 +14,7 @@ const PostSchema = new mongoose.Schema({
     required: true
   },
   link: {
-    type: [String],
+    type: [String]
   },
   thumbnail_path: {
     type: String,
