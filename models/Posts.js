@@ -9,6 +9,11 @@ const PostSchema = new mongoose.Schema({
     type: String,
     required: true
   },
+  short_description: {
+    type: String,
+    maxLength: 30,
+    required: true
+  },
   slide: {
     type: String,
     required: true
@@ -18,11 +23,10 @@ const PostSchema = new mongoose.Schema({
   },
   thumbnail_path: {
     type: String,
-    required: true,
-    default: ''
+    default: 'placeHolder'
   },
   team_id: {
-    type: Schema.Types.ObjectId,
+    type: mongoose.Schema.Types.ObjectId,
     required: true,
     ref: 'Team'
   }
