@@ -15,7 +15,7 @@ const TeamSchema = new mongoose.Schema({
   },
   tag: [{
     type: String,
-    required: true,
+    required: true
   }],
   description: {
     type: String,
@@ -33,7 +33,7 @@ const TeamSchema = new mongoose.Schema({
   },
   award: [{
     type: String,
-    required: true,
+    required: true
   }]
 });
 
