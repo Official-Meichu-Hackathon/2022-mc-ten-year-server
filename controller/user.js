@@ -92,7 +92,7 @@ const userController = {
       res.status(400).json({ message: `Failed to getUsers, ${error}` });
     }
   },
-  // TODO: unable to delete goodPost
+
   async modifyUser(req, res) {
     const rule = {
       isAdmin: {
@@ -123,7 +123,7 @@ const userController = {
       // goodPost
       if (req.body.goodPost) {
         const data = await service.user.findOne({ _id: req.body._id });
-        // check if the post exist in PostSchema
+        // TODO: check if the post exist in PostSchema
         const foundPost = data.goodPost.some((x) => x.equals(req.body.goodPost));
         if (foundPost) throw new Error('goodPost already exist');
 
@@ -138,7 +138,7 @@ const userController = {
       res.status(400).json({ message: `Failed to modifyUser, ${error}` });
     }
   },
-  // TODO: fix bug: unable to delete goodPost, questions
+
   async modifyCurrentUser(req, res) {
     const rule = {
       isAdmin: {
@@ -152,16 +152,21 @@ const userController = {
         allowEmpty: false,
         min: 6
       },
-      goodPost: { ...idRule, optional: true }
+      goodPost: { ...idRule, optional: true },
+      deletePost: { ...idRule, optional: true }
     };
 
     try {
       validator.validate(req.body, rule);
 
+      if (req.body.goodPost && req.body.deletePost) {
+        throw new Error('choose either to add or delete goodPost');
+      }
+
       // goodPost
       if (req.body.goodPost) {
         const data = await service.user.findOne({ _id: req.user._id });
-        // check if the post exist in PostSchema
+        // TODO: check if the post exist in PostSchema
         const foundPost = data.goodPost.some((x) => x.equals(req.body.goodPost));
         if (foundPost) throw new Error('goodPost already exist');
 

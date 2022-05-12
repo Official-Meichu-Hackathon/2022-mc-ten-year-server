@@ -58,7 +58,7 @@ const userService = {
       if (result) {
         logger.info('[User Service] Correct username');
         const token = jwt.sign(
-          { _id: user._id, username: user.username, isAdmin: user.isAdmin },
+          { _id: user._id.toString(), username: user.username, isAdmin: user.isAdmin },
           privateKey,
           { algorithm: 'RS256' }
         );
