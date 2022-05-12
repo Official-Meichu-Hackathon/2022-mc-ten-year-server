@@ -111,7 +111,6 @@ const userController = {
       },
       goodPost: { ...idRule, optional: true },
       deletePost: { ...idRule, optional: true }
-      // questions: { ...idRule, optional: true }
     };
 
     try {
@@ -132,18 +131,6 @@ const userController = {
         data.goodPost.push(req.body.goodPost);
         req.body.goodPost = data.goodPost;
       }
-
-      // Question
-      // if (req.body.questions) {
-      //   const data = await service.user.findOne({ _id: req.body._id });
-      //   // check if the question exist in QuestionSchema
-      //   const foundQuestion = data.questions.some((x) => x.equals(req.body.questions));
-      //   if (foundQuestion) throw new Error('question already exist');
-
-      //   // add the new questions to the params to be updated
-      //   data.questions.push(req.body.questions);
-      //   req.body.questions = data.questions;
-      // }
       const user = await service.user.updateOne(req.body);
       res.json(user);
     } catch (error) {
@@ -165,8 +152,7 @@ const userController = {
         allowEmpty: false,
         min: 6
       },
-      goodPost: { ...idRule, optional: true },
-      questions: { ...idRule, optional: true }
+      goodPost: { ...idRule, optional: true }
     };
 
     try {
@@ -182,19 +168,6 @@ const userController = {
         // add the new posts to the params to be updated
         data.goodPost.push(req.body.goodPost);
         req.body.goodPost = data.goodPost;
-      }
-
-      // Question
-      if (req.body.questions) {
-        // console.log('question');
-        const data = await service.user.findOne({ _id: req.user._id });
-        // check if the question exist in QuestionSchema
-        const foundQuestion = data.questions.some((x) => x.equals(req.body.questions));
-        if (foundQuestion) throw new Error('question already exist');
-
-        // add the new questions to the params to be updated
-        data.questions.push(req.body.questions);
-        req.body.questions = data.questions;
       }
       req.body._id = req.user._id;
       const user = await service.user.updateOne(req.body);

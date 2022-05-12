@@ -18,11 +18,6 @@ const UserSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     required: true,
     ref: 'Post' // fileSchema
-  }],
-  questions: [{
-    type: mongoose.Schema.Types.ObjectId,
-    required: true,
-    ref: 'Questions'
   }]
 });
 
