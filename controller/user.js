@@ -92,7 +92,7 @@ const userController = {
       res.status(400).json({ message: `Failed to getUsers, ${error}` });
     }
   },
-  // TODO: unable to delete goodPost, questions
+  // TODO: unable to delete goodPost
   async modifyUser(req, res) {
     const rule = {
       isAdmin: {
@@ -110,11 +110,17 @@ const userController = {
         min: 6
       },
       goodPost: { ...idRule, optional: true },
-      questions: { ...idRule, optional: true }
+      deletePost: { ...idRule, optional: true }
+      // questions: { ...idRule, optional: true }
     };
 
     try {
       validator.validate(req.body, rule);
+
+      if (req.body.goodPost && req.body.deletePost) {
+        throw new Error('choose either to add or delete goodPost');
+      }
+
       // goodPost
       if (req.body.goodPost) {
         const data = await service.user.findOne({ _id: req.body._id });
@@ -128,16 +134,16 @@ const userController = {
       }
 
       // Question
-      if (req.body.questions) {
-        const data = await service.user.findOne({ _id: req.body._id });
-        // check if the question exist in QuestionSchema
-        const foundQuestion = data.questions.some((x) => x.equals(req.body.questions));
-        if (foundQuestion) throw new Error('question already exist');
+      // if (req.body.questions) {
+      //   const data = await service.user.findOne({ _id: req.body._id });
+      //   // check if the question exist in QuestionSchema
+      //   const foundQuestion = data.questions.some((x) => x.equals(req.body.questions));
+      //   if (foundQuestion) throw new Error('question already exist');
 
-        // add the new questions to the params to be updated
-        data.questions.push(req.body.questions);
-        req.body.questions = data.questions;
-      }
+      //   // add the new questions to the params to be updated
+      //   data.questions.push(req.body.questions);
+      //   req.body.questions = data.questions;
+      // }
       const user = await service.user.updateOne(req.body);
       res.json(user);
     } catch (error) {

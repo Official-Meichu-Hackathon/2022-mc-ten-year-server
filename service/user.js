@@ -70,8 +70,11 @@ const userService = {
       throw new Error('Invalid user login data');
     }
   },
+
+  // one can only choose to either add or delete goodPost at a time
   async updateOne(params) {
     const { _id } = params;
+    const { deletePost } = params;
     if (params.password) {
       const salt = await bcrypt.genSalt(saltRound);
       const hashPassword = await bcrypt.hash(params.password, salt);
@@ -79,8 +82,28 @@ const userService = {
       params.password = hashPassword;
     }
 
+    // eslint-disable-next-line no-param-reassign
+    delete params.deletePost;
+
     try {
-      const result = await model.Users.updateOne({ _id }, params).lean();
+      // with goodPost to be deleted
+      if (deletePost) {
+        // eslint-disable-next-line no-param-reassign
+        delete params.goodPost;
+        const result = await model.Users.updateOne(
+          { _id },
+          // params
+          { ...params, $pullAll: { goodPost: [{ _id: deletePost }] } }
+        ).lean();
+        logger.info('[User Service] Update user successfully');
+        return { success: result.acknowledged };
+      }
+
+      // no goodPost to be deleted, add goodPost
+      const result = await model.Users.updateOne(
+        { _id },
+        params
+      ).lean();
       logger.info('[User Service] Update user successfully');
       return { success: result.acknowledged };
     } catch (error) {
