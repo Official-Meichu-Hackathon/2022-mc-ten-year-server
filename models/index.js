@@ -1,7 +1,7 @@
 import Users from './Users';
-import Team from './Team';
+import Teams from './Teams';
 
 export default {
   Users,
-  Team
+  Teams
 };
