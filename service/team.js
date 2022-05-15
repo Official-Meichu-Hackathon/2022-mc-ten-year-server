@@ -5,7 +5,7 @@ import '../libs/config';
 const teamService = {
   async create(params) {
     try {
-      const result = await model.Team.create(params);
+      const result = await model.Teams.create(params);
       logger.info('[Team Service] Create team successfully');
       return result;
     } catch (error) {
@@ -15,7 +15,7 @@ const teamService = {
   },
   async findOne(filter) {
     try {
-      const result = await model.Team.findOne(filter).lean();
+      const result = await model.Teams.findOne(filter).lean();
       logger.info('[Team Service] Find team successfully');
       return result;
     } catch (error) {
@@ -29,8 +29,8 @@ const teamService = {
     } = params;
 
     try {
-      const total = await model.Team.countDocuments(filter).lean();
-      const data = await model.Team.find(filter, projection, { limit, skip, sort }).lean();
+      const total = await model.Teams.countDocuments(filter).lean();
+      const data = await model.Teams.find(filter, projection, { limit, skip, sort }).lean();
       logger.info('[Team Service] Find teams successfully');
       return { total, data };
     } catch (error) {
@@ -42,7 +42,7 @@ const teamService = {
     const { _id } = params;
 
     try {
-      const result = await model.Team.updateOne({ _id }, params).lean();
+      const result = await model.Teams.updateOne({ _id }, params).lean();
       logger.info('[Team Service] Update team successfully');
       return { success: result.acknowledged };
     } catch (error) {
@@ -52,7 +52,7 @@ const teamService = {
   },
   async deleteOne(filter) {
     try {
-      const result = await model.Team.deleteOne(filter).lean();
+      const result = await model.Teams.deleteOne(filter).lean();
       logger.info('[Team Service] Delete team successfully');
       return { success: result.acknowledged };
     } catch (error) {
