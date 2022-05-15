@@ -20,9 +20,8 @@ const CompetitorSchema = new mongoose.Schema({
   team_id: {
     type: mongoose.Schema.Types.ObjectId,
     required: true,
-    ref: 'Team' 
-  },
+    ref: 'Team'
+  }
 });
-
 
 export default mongoose.model('Competitor', CompetitorSchema);
