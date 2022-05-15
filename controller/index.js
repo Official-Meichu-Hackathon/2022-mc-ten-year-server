@@ -1,5 +1,6 @@
 import user from './user';
+import competitor from './competitor';
 
 export default {
-  user
+  user, competitor
 };
