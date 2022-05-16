@@ -13,24 +13,24 @@ const questionController = {
   async addQuestion(req, res) {
     const rule = {
       question: {
-        type: String,
+        type: 'string',
         allowEmpty: false
       },
       tags: [{
-        type: String,
+        type: 'string',
         allowEmpty: true
       }],
       answer: {
-        type: String,
+        type: 'string',
         allowEmpty: false
       },
       worthy: {
-        type: Number,
+        type: 'number',
         allowEmpty: false
       },
       createTime: {
-        type: Date,
-        allowEmpty: true
+        type: 'date',
+        allowEmpty: false
       }
     };
     try {
@@ -61,7 +61,7 @@ const questionController = {
   async getQuestions(req, res) {
     const rule = {
       filter: {
-        type: String,
+        type: 'string',
         optional: true
       },
       limit: {
@@ -89,20 +89,20 @@ const questionController = {
   async modifyQuestion(req, res) {
     const rule = {
       question: {
-        type: String,
+        type: 'string',
         allowEmpty: false
       },
       tags: [{
-        type: String,
+        type: 'string',
         allowEmpty: true
       }],
       // if addqustion is used by us
       answer: {
-        type: String,
+        type: 'string',
         required: false
       },
       worthy: {
-        type: Number,
+        type: 'number',
         allowEmpty: true
       },
       createTime: {

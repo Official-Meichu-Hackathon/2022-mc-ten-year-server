@@ -18,7 +18,7 @@ const QuestionSchema = new mongoose.Schema({
     required: true
   },
   createTime: {
-    type: Date,
+    type: String,
     required: true
   }
 });
