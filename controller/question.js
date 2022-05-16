@@ -16,10 +16,10 @@ const questionController = {
         type: 'string',
         allowEmpty: false
       },
-      tags: [{
-        type: 'string',
+      tags: {
+        type: 'array',
         allowEmpty: true
-      }],
+      },
       answer: {
         type: 'string',
         allowEmpty: false
@@ -29,7 +29,7 @@ const questionController = {
         allowEmpty: false
       },
       createTime: {
-        type: 'date',
+        type: 'string',
         allowEmpty: false
       }
     };
