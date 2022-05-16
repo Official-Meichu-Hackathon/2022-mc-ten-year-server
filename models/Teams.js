@@ -13,10 +13,10 @@ const TeamSchema = new mongoose.Schema({
     type: Number,
     required: true
   },
-  tag: [{
-    type: String,
+  tag: {
+    type: Array,
     required: true
-  }],
+  },
   description: {
     type: String,
     required: false
@@ -31,10 +31,10 @@ const TeamSchema = new mongoose.Schema({
     required: true,
     default: 0
   },
-  award: [{
-    type: String,
-    required: true
-  }]
+  award: {
+    type: Array,
+    required: false
+  }
 });
 
 TeamSchema.index({

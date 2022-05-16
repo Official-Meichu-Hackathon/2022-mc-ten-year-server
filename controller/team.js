@@ -13,37 +13,37 @@ const teamController = {
   async addTeam(req, res) {
     const rule = {
       teamname: {
-        type: String,
+        type: 'string',
         allowEmpty: false
       },
       category: {
-        type: String,
+        type: 'string',
         allowEmpty: false
       },
       year: {
-        type: Number,
+        type: 'number',
         allowEmpty: false
       },
-      tag: [{
-        type: String,
+      tag: {
+        type: 'array',
         allowEmpty: false
-      }],
+      },
       description: {
-        type: String,
-        allowEmpty: false
+        type: 'string',
+        allowEmpty: true
       },
       ctr: {
-        type: Number,
+        type: 'number',
         allowEmpty: false
       },
       upvote: {
-        type: Number,
+        type: 'number',
         allowEmpty: false
       },
-      award: [{
-        type: String,
-        allowEmpty: false
-      }]
+      award: {
+        type: 'array',
+        allowEmpty: true
+      }
     };
     try {
       validator.validate(req.body, rule);
@@ -111,23 +111,23 @@ const teamController = {
       year: {
         type: 'forbidden'
       },
-      tag: [{
+      tag: {
         type: 'forbidden'
-      }],
+      },
       description: {
         type: 'forbidden'
       },
       ctr: {
-        type: Number,
+        type: 'number',
         allowEmpty: false
       },
       upvote: {
-        type: Number,
+        type: 'number',
         allowEmpty: false
       },
-      award: [{
+      award: {
         type: 'forbidden'
-      }]
+      }
     };
     //
     try {
