@@ -1,13 +1,13 @@
 import express from 'express';
 import controller from '../controller';
-import auth from '../middleware/auth';
+//import auth from '../middleware/auth';
 
 const competitorRouter = express.Router();
 
-userRouter.post('/addCompetitor', auth(true), controller.competitor.addCompetitor);
-userRouter.post('/getCompetitor', controller.competitor.getCompetitor);
-userRouter.post('/getCompetitors', controller.competitor.getCompetitors);
-userRouter.post('/modifyCompetitor', auth(true), controller.competitor.modifyCompetitor);
-userRouter.post('/removeCompetitor', auth(true), controller.competitor.removeCompetitor);
+competitorRouter.post('/addCompetitor', controller.competitor.addCompetitor);
+competitorRouter.post('/getCompetitor', controller.competitor.getCompetitor);
+competitorRouter.post('/getCompetitors', controller.competitor.getCompetitors);
+competitorRouter.post('/modifyCompetitor', controller.competitor.modifyCompetitor);
+competitorRouter.post('/removeCompetitor', controller.competitor.removeCompetitor);
 
 export default competitorRouter;

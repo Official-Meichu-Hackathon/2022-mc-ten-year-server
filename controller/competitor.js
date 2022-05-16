@@ -27,15 +27,15 @@ const competitorController = {
       feedback: {
         type: 'string',
         allowEmpty: true
-      },
-      team_id: {
-        type: 'multi',
-        rules: [
-          { type: 'string' },
-          { type: 'object' }
-        ],
-        allowEmpty: false
       }
+      // team_id: {
+      //   type: 'multi',
+      //   rules: [
+      //     { type: 'string' },
+      //     { type: 'object' }
+      //   ],
+      //   allowEmpty: false
+      // }
     };
     try {
       validator.validate(req.body, rule);
@@ -56,7 +56,7 @@ const competitorController = {
     };
     try {
       validator.validate(req.body, rule);
-      const competitor = await service.user.findOne(req.body);
+      const competitor = await service.competitor.findOne(req.body);
       res.json(competitor);
     } catch (error) {
       logger.error('[Competitor Controller] Failed to getCompetitor:', error);
@@ -109,11 +109,10 @@ const competitorController = {
       feedback: {
         type: 'string',
         allowEmpty: true
-      },
-      team_id: {
-        type: 'object',
-        allowEmpty: false
       }
+      // team_id: {
+      //   type: 'forbidden'
+      // }
     };
 
     try {

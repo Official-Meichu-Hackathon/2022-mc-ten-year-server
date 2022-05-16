@@ -16,12 +16,12 @@ const CompetitorSchema = new mongoose.Schema({
   feedback: {
     type: String,
     required: false
-  },
-  team_id: {
-    type: mongoose.Schema.Types.ObjectId,
-    required: true,
-    ref: 'Team'
   }
+  // team_id: {
+  //   type: mongoose.Schema.Types.ObjectId,
+  //   required: true,
+  //   ref: 'Team'
+  // }
 });
 
 export default mongoose.model('Competitor', CompetitorSchema);
