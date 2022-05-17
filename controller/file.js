@@ -56,14 +56,13 @@ const fileController = {
   },
   async getFiles(req, res) {
     const rule = {
-      _id: idRule,
       filter: {
         type: 'object',
         optional: true
       },
       limit: {
         type: 'number',
-        optiona: true
+        optional: true
       },
       skip: {
         type: 'number',
@@ -71,14 +70,14 @@ const fileController = {
       },
       sort: {
         type: 'object',
-        optiona: true
+        optional: true
       }
     };
 
     try {
       validator.validate(req.body, rule);
-      // const result = await service.file.find(req.body);
-      // res.json(result);
+      const result = await service.file.findAll(req.body);
+      res.json(result);
     } catch (error) {
       logger.error('[File Controller] Failed to getFiles', error);
       res.status(400).json({ message: `Failed to getFiles, ${error}` });
@@ -91,13 +90,13 @@ const fileController = {
 
     try {
       validator.validate(req.body, rule);
-      const deletedFile = service.file.findOne(req.body);
+      const deletedFile = await service.file.findOne(req.body);
       const params = {
         _id: req.body._id,
         fileName: deletedFile.fileName,
         fileType: deletedFile.fileType
       };
-      const result = service.file.remove(params);
+      const result = await service.file.remove(params);
       res.json(result);
     } catch (error) {
       logger.error('[File Controller] Failed to remove Files');

@@ -1,6 +1,7 @@
 import AWS from 'aws-sdk';
 import { v4 as uuidV4 } from 'uuid';
 import logger from '../libs/logger';
+import models from '../models';
 
 let s3;
 const fileTypes = ['ten_year_slide', 'ten_year_thumbnail'];
@@ -37,13 +38,13 @@ const fileService = {
 
     try {
       const data = await uploadPromise(bucketName, keyName, file);
-      const result = model.File.create({
+      const result = models.Files.create({
         fileName: data.Key, fileType, url: data.Location
       });
       logger.info(`Upload file successfully, stored at '${data.Location}'`);
       return result;
     } catch (error) {
-      logger.error(error);
+      logger.error('[File Service]', error);
       throw new Error(`Failed to upload ${fileName} to ${bucketName} in S3, ${error}`);
     }
   },
@@ -68,22 +69,32 @@ const fileService = {
       // S3 database
       await deleteObjectPromise(bucketName, fileName);
       // mongodb database
-      const result = await model.File.deleteOne({ _id }).lean();
+      const result = await models.Files.deleteOne({ _id }).lean();
       logger.info('Remove file successfully');
-      return result;
+      return { deletedCount: result.deletedCount };
     } catch (error) {
-      logger.error(error);
+      logger.error('[File Service]', error);
       throw new Error(1006, `Failed to remove ${fileName} from ${bucketName} in S3, ${error}.`);
     }
   },
   async findOne(filter) {
     try {
-      const result = await model.File.findOne(filter).lean();
+      const result = await models.Files.findOne(filter).lean();
       logger.info('[File Service] Find file successfully');
       return result;
     } catch (error) {
       logger.error('[File Service] Failed to find file in database', error);
       throw new Error(`Failed to find file in database, ${error}`);
+    }
+  },
+  async findAll(filter) {
+    try {
+      const result = await models.Files.find(filter).lean();
+      logger.info('[File Service] Find files successfully');
+      return result;
+    } catch (error) {
+      logger.error('[File Service] Failed to find files in database', error);
+      throw new Error(`Failed to find files in database, ${error}`);
     }
   },
   async S3Config() {

@@ -12,10 +12,10 @@ connectMongo();
 
 // Body Parser
 app.use(express.json());
+app.use(express.raw({ type: 'application/pdf', limit: '5mb' }));
 
 // Router
 app.use(router);
-app.use(express.raw({ type: 'application/pdf', limit: '5mb' }));
 app.get('/', (req, res) => {
   res.json({ message: 'Welcome to MC-Ten-year-Server!' });
 });
