@@ -38,8 +38,12 @@ describe('Test \'competitor\' service', () => {
       const res = await request(app).post('/competitor/getCompetitor')
         .send({ _id: newCompetitor._id });
       expect(res.body).toEqual(expect.objectContaining({
+        __v: 0,
         _id: newCompetitor._id,
-        name: newCompetitor.username
+        email_address: newCompetitor.email_address,
+        feedback: newCompetitor.feedback,
+        name: newCompetitor.name,
+        phone_number: newCompetitor.phone_number,
       }));
     });
   });
@@ -55,7 +59,8 @@ describe('Test \'competitor\' service', () => {
   describe('Test \'competitor.modifyCompetitor\' action', () => {
     it('modify a competitor, should return with \'success message\'', async () => {
       const res = await request(app).post('/competitor/modifyCompetitor')
-        .send({ _id: newCompetitor._id, phone_number: '0000000000' });
+        // eslint-disable-next-line max-len
+        .send({ _id: newCompetitor._id, phone_number: '0000000000', email_address: newCompetitor.email_address, feedback: newCompetitor.feedback });
       expect(res.body).toHaveProperty('success', true);
     });
   });
