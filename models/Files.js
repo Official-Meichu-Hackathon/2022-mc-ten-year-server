@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 
 const fileSchema = new mongoose.Schema({
-  name: {
+  fileName: {
     type: String,
     required: true
   },
@@ -9,9 +9,9 @@ const fileSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  type: {
+  fileType: {
     type: String,
-    enum: ['slide', 'thumbnial'],
+    enum: ['ten_year_slide', 'ten_year_thumbnail'],
     required: true
   }
 });
