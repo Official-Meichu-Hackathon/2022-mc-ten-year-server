@@ -92,9 +92,55 @@ const userController = {
       res.status(400).json({ message: `Failed to getUsers, ${error}` });
     }
   },
+
+  async modifyUser(req, res) {
+    const rule = {
+      isAdmin: {
+        type: 'forbidden'
+      },
+      username: {
+        type: 'string',
+        allowEmpty: false,
+        min: 6,
+        optional: true
+      },
+      password: {
+        type: 'string',
+        allowEmpty: false,
+        min: 6
+      },
+      goodPost: { ...idRule, optional: true },
+      deletePost: { ...idRule, optional: true }
+    };
+
+    try {
+      validator.validate(req.body, rule);
+
+      if (req.body.goodPost && req.body.deletePost) {
+        throw new Error('choose either to add or delete goodPost');
+      }
+
+      // goodPost
+      if (req.body.goodPost) {
+        const data = await service.user.findOne({ _id: req.body._id });
+        // TODO: check if the post exist in PostSchema
+        const foundPost = data.goodPost.some((x) => x.equals(req.body.goodPost));
+        if (foundPost) throw new Error('goodPost already exist');
+
+        // add the new posts to the params to be updated
+        data.goodPost.push(req.body.goodPost);
+        req.body.goodPost = data.goodPost;
+      }
+      const user = await service.user.updateOne(req.body);
+      res.json(user);
+    } catch (error) {
+      logger.error('[User Controller] Failed to modifyUser:', error);
+      res.status(400).json({ message: `Failed to modifyUser, ${error}` });
+    }
+  },
+
   async modifyCurrentUser(req, res) {
     const rule = {
-      _id: idRule,
       isAdmin: {
         type: 'forbidden'
       },
@@ -105,24 +151,35 @@ const userController = {
         type: 'string',
         allowEmpty: false,
         min: 6
-      }
-    //   goodPost: {
-    //     type: 'array',
-    //     items: idRule
-    //   },
-    //   questions: {
-    //     type: 'array',
-    //     items: idRule
-    //   }
+      },
+      goodPost: { ...idRule, optional: true },
+      deletePost: { ...idRule, optional: true }
     };
 
     try {
       validator.validate(req.body, rule);
+
+      if (req.body.goodPost && req.body.deletePost) {
+        throw new Error('choose either to add or delete goodPost');
+      }
+
+      // goodPost
+      if (req.body.goodPost) {
+        const data = await service.user.findOne({ _id: req.user._id });
+        // TODO: check if the post exist in PostSchema
+        const foundPost = data.goodPost.some((x) => x.equals(req.body.goodPost));
+        if (foundPost) throw new Error('goodPost already exist');
+
+        // add the new posts to the params to be updated
+        data.goodPost.push(req.body.goodPost);
+        req.body.goodPost = data.goodPost;
+      }
+      req.body._id = req.user._id;
       const user = await service.user.updateOne(req.body);
       res.json(user);
     } catch (error) {
-      logger.error('[User Controller] Failed to modifyUser:', error);
-      res.status(400).json({ message: `Failed to modifyUser, ${error}` });
+      logger.error('[User Controller] Failed to modifyCurrentUser:', error);
+      res.status(400).json({ message: `Failed to modifyCurrentUser, ${error}` });
     }
   },
   async removeUser(req, res) {
@@ -132,7 +189,7 @@ const userController = {
     try {
       validator.validate(req.body, rule);
       const admin = await service.user.findOne(req.body);
-      if (admin) {
+      if (admin.isAdmin) {
         throw new Error('cannot remove admin');
       }
       const user = await service.user.deleteOne(req.body);

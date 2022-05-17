@@ -18,8 +18,10 @@ app.get('/', (req, res) => {
   res.json({ message: 'Welcome to MC-Ten-year-Server!' });
 });
 
-app.listen(process.env.PORT, () => {
-  logger.info(`Server is running at port ${process.env.PORT}`);
-});
+if (process.env.NODE_ENV !== 'test') {
+  app.listen(process.env.PORT, () => {
+    logger.info(`Server is running at port ${process.env.PORT}`);
+  });
+}
 
 export default app;
