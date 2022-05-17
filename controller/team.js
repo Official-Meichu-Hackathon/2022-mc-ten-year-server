@@ -132,8 +132,8 @@ const teamController = {
     //
     try {
       validator.validate(req.body, rule);
-      const user = await service.user.updateOne(req.body);
-      res.json(user);
+      const team = await service.team.updateOne(req.body);
+      res.json(team);
     } catch (error) {
       logger.error('[Team Controller] Failed to modifyTeam:', error);
       res.status(400).json({ message: `Failed to modifyTeam, ${error}` });
