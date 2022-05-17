@@ -18,12 +18,12 @@ const fileRule = {
   fileType: {
     type: 'enum',
     allowEmpty: false,
-    value: ['ten_year_thumbnail', 'ten_year_slide']
+    values: ['ten_year_thumbnail', 'ten_year_slide']
   }
 };
 
 const fileController = {
-  // TODO:fix: cannot read properties of undefined 'join'
+  // TODO:fix: support pdf
   async addFile(req, res) {
     const { filename: fileName, filetype: fileType } = req.headers;
     const params = {
