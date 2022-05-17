@@ -1,5 +1,6 @@
 import express from 'express';
 import controller from '../controller';
+// import auth from '../middleware/auth';
 
 const teamRouter = express.Router();
 teamRouter.post('/addTeam', controller.team.addTeam);
