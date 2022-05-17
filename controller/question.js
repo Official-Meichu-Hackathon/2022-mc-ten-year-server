@@ -92,10 +92,10 @@ const questionController = {
         type: 'string',
         allowEmpty: false
       },
-      tags: [{
-        type: 'string',
+      tags: {
+        type: 'array',
         allowEmpty: true
-      }],
+      },
       // if addqustion is used by us
       answer: {
         type: 'string',

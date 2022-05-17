@@ -28,7 +28,12 @@ describe('Test \'questions\' service', () => {
         });
       expect(res.body).toEqual(expect.objectContaining({
         _id: expect.anything(),
-        question: ' testtest'
+        __v: expect.anything(),
+        question: 'testtest',
+        tags: ['aaaa', 'bbbb'],
+        answer: 'ansans',
+        worthy: 7,
+        createTime: '2020-5-2'
       }));
       newQuestion = res.body;
     });
@@ -44,7 +49,7 @@ describe('Test \'questions\' service', () => {
     });
   });
 
-  describe('Test \'questions.getQuestions\' action', () => {
+  describe('Test \'questions.getQuestions\'action', () => {
     it('get questions, should return with the question list', async () => {
       const res = await request(app).post('/question/getQuestions');
       expect(res.body.total).toBeGreaterThanOrEqual(1);
@@ -52,19 +57,19 @@ describe('Test \'questions\' service', () => {
     });
   });
 
-  describe('Test \'questions.modifyQuestion\' action', () => {
+  describe('Test \'questions.modifyQuestion\'action', () => {
     it('modify an question, should return with \'success message\'', async () => {
       const res = await request(app).post('/question/modifyQuestion')
-        .send({ _id: newUser._id,
+        .send({ _id: newQuestion._id,
           question: 'testmodify',
-          tags: ['aaaa', 'bbbb', 'cccc'],
-          answer: 'ansansmodify',
-          worthy: 9
+          tags: ['aaaa', 'bbbb', 'ccccc'],
+          answer: 'testansans',
+          worthy: 3
         });
       expect(res.body).toHaveProperty('success', true);
     });
   });
-  describe('Test \'questions.removeQuestion\' action', () => {
+  describe('Test \'questions.removeQuestion\'action', () => {
     it('remove an question, should return with \'success message\'', async () => {
       const res = await request(app).post('/question/removeQuestion')
         .send({ _id: newQuestion._id });
