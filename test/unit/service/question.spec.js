@@ -14,11 +14,30 @@ describe('Test \'questions\' service', () => {
     });
   });
 
+  // gain token
+  let token = null;
+  // let newUser = null;
+
+  describe('Test \'users.login\' action', () => {
+    it('login, should return with a token', async () => {
+      const res = await request(app).post('/user/login').send({
+        username: 'testuser',
+        password: 'rootroot'
+      });
+      expect(res.body).toEqual(expect.objectContaining({
+        token: expect.anything()
+      }));
+      token = res.body.token;
+    });
+  });
+  // get token
+
   let newQuestion = null;
 
   describe('Test \'questions.addQuestion\' action', () => {
     it('add an question, should return with the quesion', async () => {
       const res = await request(app).post('/question/addQuestion')
+        .set('Authorization', `Bearer ${token}`)
         .send({
           question: 'testtest',
           tags: ['aaaa', 'bbbb'],
@@ -60,10 +79,11 @@ describe('Test \'questions\' service', () => {
   describe('Test \'questions.modifyQuestion\'action', () => {
     it('modify an question, should return with \'success message\'', async () => {
       const res = await request(app).post('/question/modifyQuestion')
+        .set('Authorization', `Bearer ${token}`)
         .send({ _id: newQuestion._id,
           question: 'testmodify',
-          tags: ['aaaa', 'bbbb', 'ccccc'],
-          answer: 'testansans',
+          tags: ['aaaa', 'bbbb', 'modify'],
+          answer: 'ansansModify',
           worthy: 3
         });
       expect(res.body).toHaveProperty('success', true);
@@ -72,6 +92,7 @@ describe('Test \'questions\' service', () => {
   describe('Test \'questions.removeQuestion\'action', () => {
     it('remove an question, should return with \'success message\'', async () => {
       const res = await request(app).post('/question/removeQuestion')
+        .set('Authorization', `Bearer ${token}`)
         .send({ _id: newQuestion._id });
       expect(res.body).toHaveProperty('success', true);
     });
