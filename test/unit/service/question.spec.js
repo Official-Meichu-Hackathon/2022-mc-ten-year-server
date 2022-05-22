@@ -35,7 +35,7 @@ describe('Test \'questions\' service', () => {
   let newQuestion = null;
 
   describe('Test \'questions.addQuestion\' action', () => {
-    it('add an question, should return with the quesion', async () => {
+    it('add an question, should return with the question', async () => {
       const res = await request(app).post('/question/addQuestion')
         .set('Authorization', `Bearer ${token}`)
         .send({

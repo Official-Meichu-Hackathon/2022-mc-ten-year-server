@@ -25,12 +25,12 @@ describe('Test \'users\' service', () => {
       const res = await request(app).post('/user/register')
         .send({
           isAdmin: true,
-          username: 'testuser3',
+          username: 'testuser',
           password: 'rootroot'
         });
       expect(res.body).toEqual(expect.objectContaining({
         _id: expect.anything(),
-        username: 'testuser3',
+        username: 'testuser',
         isAdmin: true
       }));
       newUser = res.body;
@@ -40,7 +40,7 @@ describe('Test \'users\' service', () => {
   describe('Test \'users.login\' action', () => {
     it('login, should return with a token', async () => {
       const res = await request(app).post('/user/login').send({
-        username: 'testuser3',
+        username: 'testuser',
         password: 'rootroot'
       });
       expect(res.body).toEqual(expect.objectContaining({
