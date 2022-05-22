@@ -23,6 +23,6 @@ const QuestionSchema = new mongoose.Schema({
   }
 });
 
-QuestionSchema.index({ worty: -1 }, { createTime: 1 });
+QuestionSchema.index({ worthy: -1 }, { createTime: 1 });
 
 export default mongoose.model('Question', QuestionSchema);
