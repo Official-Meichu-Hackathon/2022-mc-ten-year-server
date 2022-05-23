@@ -14,7 +14,9 @@ describe('Test \'teams\' service', () => {
     });
   });
 
+  // gain token
   let token = null;
+  // let newUser = null;
 
   describe('Test \'users.login\' action', () => {
     it('login, should return with a token', async () => {
@@ -28,12 +30,14 @@ describe('Test \'teams\' service', () => {
       token = res.body.token;
     });
   });
+  // get token
 
   let newTeam = null;
 
   describe('Test \'teams.addTeam\' action', () => {
     it('add a team, should return with the team', async () => {
       const res = await request(app).post('/team/addTeam')
+        .set('Authorization', `Bearer ${token}`)
         .send({
           teamname: 'team',
           category: 'first',
