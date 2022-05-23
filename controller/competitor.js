@@ -27,19 +27,19 @@ const competitorController = {
       feedback: {
         type: 'string',
         allowEmpty: true
+      },
+      team_id: {
+        type: 'multi',
+        rules: [
+          { type: 'string' },
+          { type: 'object' }
+        ],
+        allowEmpty: false
       }
-      // team_id: {
-      //   type: 'multi',
-      //   rules: [
-      //     { type: 'string' },
-      //     { type: 'object' }
-      //   ],
-      //   allowEmpty: false
-      // }
     };
     try {
       validator.validate(req.body, rule);
-      const found = await service.competitor.findOne({ name: req.body.name }); // findOne' s parameter
+      const found = await service.competitor.findOne({ name: req.body.name });
       if (found) {
         throw new Error('competitor already in use');
       }
@@ -109,10 +109,10 @@ const competitorController = {
       feedback: {
         type: 'string',
         allowEmpty: true
+      },
+      team_id: {
+        type: 'forbidden'
       }
-      // team_id: {
-      //   type: 'forbidden'
-      // }
     };
 
     try {
