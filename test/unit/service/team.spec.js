@@ -14,13 +14,28 @@ describe('Test \'teams\' service', () => {
     });
   });
 
+  let token = null;
+
+  describe('Test \'users.login\' action', () => {
+    it('login, should return with a token', async () => {
+      const res = await request(app).post('/user/login').send({
+        username: 'testuser',
+        password: 'rootroot'
+      });
+      expect(res.body).toEqual(expect.objectContaining({
+        token: expect.anything()
+      }));
+      token = res.body.token;
+    });
+  });
+
   let newTeam = null;
 
   describe('Test \'teams.addTeam\' action', () => {
     it('add a team, should return with the team', async () => {
       const res = await request(app).post('/team/addTeam')
         .send({
-          teamname: 'team2',
+          teamname: 'team',
           category: 'first',
           tag: ['2022', '555'],
           description: '1',
@@ -31,7 +46,7 @@ describe('Test \'teams\' service', () => {
         });
       expect(res.body).toEqual(expect.objectContaining({
         _id: expect.anything(),
-        teamname: 'team2'
+        teamname: 'team'
       }));
       newTeam = res.body;
     });
@@ -40,6 +55,7 @@ describe('Test \'teams\' service', () => {
   describe('Test \'teams.getTeam\' action', () => {
     it('get a team, should return with the team', async () => {
       const res = await request(app).post('/team/getTeam')
+        .set('Authorization', `Bearer ${token}`)
         .send({ _id: newTeam._id });
       expect(res.body).toEqual(expect.objectContaining({
         _id: newTeam._id,
@@ -50,7 +66,8 @@ describe('Test \'teams\' service', () => {
 
   describe('Test \'teams.getTeams\' action', () => {
     it('get teams, should return with the team list', async () => {
-      const res = await request(app).post('/team/getTeams');
+      const res = await request(app).post('/team/getTeams')
+        .set('Authorization', `Bearer ${token}`);
       expect(res.body.total).toBeGreaterThanOrEqual(1);
       expect(res.body).toHaveProperty('data');
     });
@@ -59,6 +76,7 @@ describe('Test \'teams\' service', () => {
   describe('Test \'teams.modifyTeam\' action', () => {
     it('modify a team, should return with \'success message\'', async () => {
       const res = await request(app).post('/team/modifyTeam')
+        .set('Authorization', `Bearer ${token}`)
         .send({ _id: newTeam._id, ctr: 1, upvote: 1 });
       expect(res.body).toHaveProperty('success', true);
     });
@@ -67,6 +85,7 @@ describe('Test \'teams\' service', () => {
   describe('Test \'teams.removeTeam\' action', () => {
     it('remove a team, should return with \'success message\'', async () => {
       const res = await request(app).post('/team/removeTeam')
+        .set('Authorization', `Bearer ${token}`)
         .send({ _id: newTeam._id });
       expect(res.body).toHaveProperty('success', true);
     });
