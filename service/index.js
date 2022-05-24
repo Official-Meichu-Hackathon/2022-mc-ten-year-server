@@ -1,3 +1,4 @@
 import user from './user';
+import file from './file';
 
-export default { user };
+export default { user, file };
