@@ -27,6 +27,7 @@ const PostSchema = new mongoose.Schema({
   },
   team_id: {
     type: mongoose.Schema.Types.ObjectId,
+    // type: String,
     required: true,
     ref: 'Team'
   }
