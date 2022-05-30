@@ -1,9 +1,11 @@
 import express from 'express';
 import cors from 'cors';
+
 import userRouter from './user';
 import fileRouter from './file';
 import postRouter from './post';
 import teamRouter from './team';
+import questionRouter from './question';
 
 const router = express.Router();
 
@@ -13,5 +15,6 @@ router.use('/user', userRouter);
 router.use('/post', postRouter);
 router.use('/file', fileRouter);
 router.use('/team', teamRouter);
+router.use('/question', questionRouter);
 
 export default router;

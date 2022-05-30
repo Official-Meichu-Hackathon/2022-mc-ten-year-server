@@ -1,15 +1,7 @@
-// import jwt from 'jsonwebtoken';
-// import bcrypt from 'bcrypt';
-// import fs from 'fs';
 import model from '../models';
 import logger from '../libs/logger';
 import '../libs/config';
 
-// const privateKeyLocation = process.env.PRIVATE_KEY_LOCATION;
-// const rootDir = process.cwd();
-// const privateKey = fs.readFileSync(`${rootDir}${privateKeyLocation}`);
-// const saltRound = 10;
-// findAll updateOne deleteOne deleteMany
 const postService = {
   async create(params) {
     try {
