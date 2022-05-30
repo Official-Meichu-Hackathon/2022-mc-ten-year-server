@@ -15,9 +15,23 @@ describe('Test \'post\' service', () => {
   });
 
   let newPost = null;
-  // gain token
   let token = null;
-  // let newUser = null;
+
+  // describe('Test \'users.register\' action', () => {
+  //   it('add an user, should return with the user', async () => {
+  //     const res = await request(app).post('/user/register')
+  //       .send({
+  //         isAdmin: true,
+  //         username: 'testuser',
+  //         password: 'rootroot'
+  //       });
+  //     expect(res.body).toEqual(expect.objectContaining({
+  //       _id: expect.anything(),
+  //       username: 'testuser',
+  //       isAdmin: true
+  //     }));
+  //   });
+  // });
 
   describe('Test \'users.login\' action', () => {
     it('login, should return with a token', async () => {
