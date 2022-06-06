@@ -188,10 +188,12 @@ const userController = {
     };
     try {
       validator.validate(req.body, rule);
+      /*
       const admin = await service.user.findOne(req.body);
       if (admin.isAdmin) {
         throw new Error('cannot remove admin');
       }
+      */
       const user = await service.user.deleteOne(req.body);
       res.json(user);
     } catch (error) {

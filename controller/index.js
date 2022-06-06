@@ -4,6 +4,7 @@ import post from './post';
 import team from './team';
 import question from './question';
 import competitor from './competitor';
+import memory from './memory';
 
 export default {
   user,
@@ -11,5 +12,6 @@ export default {
   post,
   team,
   question,
-  competitor
+  competitor,
+  memory
 };

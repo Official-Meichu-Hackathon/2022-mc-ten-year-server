@@ -7,6 +7,7 @@ import postRouter from './post';
 import teamRouter from './team';
 import questionRouter from './question';
 import competitorRouter from './competitor';
+import memoryRouter from './memory';
 
 const router = express.Router();
 
@@ -18,5 +19,6 @@ router.use('/file', fileRouter);
 router.use('/team', teamRouter);
 router.use('/question', questionRouter);
 router.use('/competitor', competitorRouter);
+router.use('/memory', memoryRouter);
 
 export default router;

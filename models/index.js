@@ -4,6 +4,7 @@ import Posts from './Posts';
 import Teams from './Teams';
 import Questions from './Questions';
 import Competitor from './Competitor';
+import Memory from './Memory';
 
 export default {
   Users,
@@ -11,5 +12,6 @@ export default {
   Posts,
   Teams,
   Questions,
-  Competitor
+  Competitor,
+  Memory
 };
