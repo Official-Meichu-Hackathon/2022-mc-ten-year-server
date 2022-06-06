@@ -5,5 +5,6 @@ import team from './team';
 import question from './question';
 import competitor from './competitor';
 import memory from './memory';
+import staff from './staff';
 
-export default { user, file, post, team, question, competitor, memory };
+export default { user, file, post, team, question, competitor, memory, staff };

@@ -5,7 +5,7 @@ import '../libs/config';
 const memoryService = {
   async create(params) {
     try {
-      const result = await model.Memory.create(params);
+      const result = await model.Memories.create(params);
       logger.info('[Memory Service] Create memory successfully');
       return result;
     } catch (error) {
@@ -15,7 +15,7 @@ const memoryService = {
   },
   async findOne(filter) {
     try {
-      const result = await model.Memory.findOne(filter).lean();
+      const result = await model.Memories.findOne(filter).lean();
       logger.info('[Memory Service] Find memory successfully');
       return result;
     } catch (error) {
@@ -29,8 +29,8 @@ const memoryService = {
     } = params;
 
     try {
-      const total = await model.Memory.countDocuments(filter).lean();
-      const data = await model.Memory.find(filter, projection, { limit, skip, sort }).lean();
+      const total = await model.Memories.countDocuments(filter).lean();
+      const data = await model.Memories.find(filter, projection, { limit, skip, sort }).lean();
       logger.info('[Memory Service] Find memories successfully');
       return { total, data };
     } catch (error) {
@@ -42,7 +42,7 @@ const memoryService = {
   async updateOne(params) {
     const { _id } = params;
     try {
-      const result = await model.Memory.updateOne({ _id }, params).lean();
+      const result = await model.Memories.updateOne({ _id }, params).lean();
       logger.info('[Memory Service] Update memory successfully');
       return { success: result.acknowledged };
     } catch (error) {
@@ -52,7 +52,7 @@ const memoryService = {
   },
   async deleteOne(filter) {
     try {
-      const result = await model.Memory.deleteOne(filter).lean();
+      const result = await model.Memories.deleteOne(filter).lean();
       logger.info('[Memory Service] Delete memory successfully');
       return { success: result.acknowledged };
     } catch (error) {

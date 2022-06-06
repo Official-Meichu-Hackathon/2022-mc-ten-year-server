@@ -8,6 +8,7 @@ import teamRouter from './team';
 import questionRouter from './question';
 import competitorRouter from './competitor';
 import memoryRouter from './memory';
+import staffRouter from './staff';
 
 const router = express.Router();
 
@@ -20,5 +21,6 @@ router.use('/team', teamRouter);
 router.use('/question', questionRouter);
 router.use('/competitor', competitorRouter);
 router.use('/memory', memoryRouter);
+router.use('/Staff', staffRouter);
 
 export default router;

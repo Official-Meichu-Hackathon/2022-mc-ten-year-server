@@ -5,7 +5,7 @@ import '../libs/config';
 const competitorService = {
   async create(params) {
     try {
-      const result = await model.Competitor.create(params);
+      const result = await model.Competitors.create(params);
       logger.info('[Competitor Service] Create competitor successfully');
       return result;
     } catch (error) {
@@ -15,7 +15,7 @@ const competitorService = {
   },
   async findOne(filter) {
     try {
-      const result = await model.Competitor.findOne(filter).lean();
+      const result = await model.Competitors.findOne(filter).lean();
       logger.info('[Competitor Service] Find competitor successfully');
       return result;
     } catch (error) {
@@ -29,8 +29,8 @@ const competitorService = {
     } = params;
 
     try {
-      const total = await model.Competitor.countDocuments(filter).lean();
-      const data = await model.Competitor.find(filter, projection, { limit, skip, sort }).lean();
+      const total = await model.Competitors.countDocuments(filter).lean();
+      const data = await model.Competitors.find(filter, projection, { limit, skip, sort }).lean();
       logger.info('[Competitor Service] Find competitors successfully');
       return { total, data };
     } catch (error) {
@@ -41,7 +41,7 @@ const competitorService = {
   async updateOne(params) {
     const { _id } = params;
     try {
-      const result = await model.Competitor.updateOne({ _id }, params).lean();
+      const result = await model.Competitors.updateOne({ _id }, params).lean();
       logger.info('[Competitor Service] Update competitor successfully');
       return { success: result.acknowledged };
     } catch (error) {
@@ -51,7 +51,7 @@ const competitorService = {
   },
   async deleteOne(filter) {
     try {
-      const result = await model.Competitor.deleteOne(filter).lean();
+      const result = await model.Competitors.deleteOne(filter).lean();
       logger.info('[Competitor Service] Delete competitor successfully');
       return { success: result.acknowledged };
     } catch (error) {

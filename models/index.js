@@ -3,8 +3,9 @@ import Files from './Files';
 import Posts from './Posts';
 import Teams from './Teams';
 import Questions from './Questions';
-import Competitor from './Competitor';
-import Memory from './Memory';
+import Competitors from './Competitors';
+import Memories from './Memories';
+import Staffs from './Staffs';
 
 export default {
   Users,
@@ -12,6 +13,7 @@ export default {
   Posts,
   Teams,
   Questions,
-  Competitor,
-  Memory
+  Competitors,
+  Memories,
+  Staffs
 };

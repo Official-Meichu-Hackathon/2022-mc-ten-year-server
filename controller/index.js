@@ -5,6 +5,7 @@ import team from './team';
 import question from './question';
 import competitor from './competitor';
 import memory from './memory';
+import staff from './staff';
 
 export default {
   user,
@@ -13,5 +14,6 @@ export default {
   team,
   question,
   competitor,
-  memory
+  memory,
+  staff
 };
