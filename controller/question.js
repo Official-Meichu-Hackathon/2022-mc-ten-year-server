@@ -27,10 +27,6 @@ const questionController = {
       worthy: {
         type: 'number',
         allowEmpty: false
-      },
-      createTime: {
-        type: 'string',
-        allowEmpty: false
       }
     };
     try {

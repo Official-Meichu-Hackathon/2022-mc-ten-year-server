@@ -56,8 +56,8 @@ describe('Test \'questions\' service', () => {
           question: 'testtest',
           tags: ['aaaa', 'bbbb'],
           answer: 'ansans',
-          worthy: 7,
-          createTime: '2020-5-2'
+          worthy: 7
+          // createTime: '2020-5-2'
         });
       expect(res.body).toEqual(expect.objectContaining({
         _id: expect.anything(),
@@ -65,8 +65,8 @@ describe('Test \'questions\' service', () => {
         question: 'testtest',
         tags: ['aaaa', 'bbbb'],
         answer: 'ansans',
-        worthy: 7,
-        createTime: '2020-5-2'
+        worthy: 7
+        // createTime: '2020-5-2'
       }));
       newQuestion = res.body;
     });
