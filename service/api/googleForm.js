@@ -36,6 +36,8 @@ async function getData() {
     }
   });
 
+  console.log(Object.values(res.data.responses[0].answers)[3].textAnswers.answers[0].value);
+
   return res.data;
 }
 
