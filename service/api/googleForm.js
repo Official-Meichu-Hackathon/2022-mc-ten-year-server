@@ -1,29 +1,25 @@
-import { join } from 'path';
-import { forms as _forms } from '@googleapis/forms';
+import path from 'path';
+import google from '@googleapis/forms';
 import { authenticate } from '@google-cloud/local-auth';
 
-const formID = '1ziPJ4GKBb1yeC9Q4kB9EABM-suTxu_IPTDmhr62-ais';
+const formID = '1W0ODm8XGNjAxQZtscRila638fEQJZCGBNr8_sqJqZuU';
+const __dirname = process.cwd();
 
-async function runSample(query) {
+async function runSample() {
   const auth = await authenticate({
-    keyfilePath: join(__dirname, '../../libs/credentials.json'),
-    // TODO: change here
+    keyfilePath: path.join(__dirname, '/libs/credentials.json'),
     scopes: 'https://www.googleapis.com/auth/forms.responses.readonly'
   });
 
-  const forms = _forms({
+  const forms = google.forms({
     version: 'v1',
     auth
   });
 
-  console.log('Hello there');
-  // TODO: change here
+  // the response from google form
   const res = await forms.forms.responses.list({ formId: formID });
-  console.log(res.data.responses[0].answers[2]);
+
   return res.data;
 }
 
-if (module === require.main) {
-  runSample().catch(console.error);
-}
 export default runSample;

@@ -1,3 +1,3 @@
-import runSample from './service/api/googleForm';
+import runSample from './service/api/googleForm.js';
 
 runSample();
