@@ -210,7 +210,7 @@ const userController = {
     };
     try {
       validator.validate(req.body, rule);
-      req.body.filter = { ...req.body };
+      req.body.filter = { ...req.body, isAdmin: false };
       const user = await service.user.deleteMany(req.body);
       res.json(user);
     } catch (error) {
@@ -239,6 +239,7 @@ const userController = {
   async getCurrentUser(req, res) {
     if (req.user) {
       const user = await service.user.findOne({ _id: req.user._id });
+      if (!user) res.json({ message: 'user non-exist in DB' });
       res.json(user);
     } else {
       res.status(400).json({ message: 'Not signed in yet.' });
