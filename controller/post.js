@@ -144,10 +144,10 @@ const postController = {
 
     try {
       validator.validate(req.body, rule);
-      // const foundTeam = await service.team.findOne({ _id: req.body.team_id });
-      // if (!foundTeam) {
-      //  throw new Error('team not found');
-      // }
+      const foundTeam = await service.team.findOne({ _id: req.body.team_id });
+      if (!foundTeam) {
+        throw new Error('Team ID is not exist');
+      }
       if (req.body.thumbnail_path != null && req.body.thumbnail_path === '') req.body.thumbnail_path = 'placeHolder';
       const post = await service.post.updateOne(req.body);
       res.json(post);

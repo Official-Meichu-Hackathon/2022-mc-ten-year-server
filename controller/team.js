@@ -102,6 +102,7 @@ const teamController = {
   },
   async modifyTeam(req, res) {
     const rule = {
+      _id: idRule,
       teamname: {
         type: 'forbidden'
       },
@@ -132,6 +133,10 @@ const teamController = {
     //
     try {
       validator.validate(req.body, rule);
+      const foundTeam = await service.team.findOne({ _id: req.body._id });
+      if (!foundTeam) {
+        throw new Error('Team ID is not exist');
+      }
       const team = await service.team.updateOne(req.body);
       res.json(team);
     } catch (error) {

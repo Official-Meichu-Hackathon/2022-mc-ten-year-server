@@ -95,6 +95,7 @@ const staffController = {
       //   // type: { ...idRule }
       //   type: 'string'
       // },
+      _id: idRule,
       dept: {
         type: 'string'
       },
@@ -110,6 +111,10 @@ const staffController = {
 
     try {
       validator.validate(req.body, rule);
+      const foundStaff = await service.staff.findOne({ _id: req.body._id });
+      if (!foundStaff) {
+        throw new Error('Staff ID is not exist');
+      }
       const staff = await service.staff.updateOne(req.body);
       res.json(staff);
     } catch (error) {

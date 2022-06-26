@@ -1,7 +1,7 @@
 import logger from '../libs/logger';
 import service from '../service';
 import validator from '../libs/validator';
-/*
+
 const idRule = {
   type: 'multi',
   rules: [
@@ -9,7 +9,7 @@ const idRule = {
     { type: 'object' }
   ]
 };
-*/
+
 const memoryController = {
   async addMemory(req, res) {
     const rule = {
@@ -114,6 +114,7 @@ const memoryController = {
 
   async modifyMemory(req, res) {
     const rule = {
+      _id: idRule,
       year: {
         type: 'number',
         allowEmpty: false,
@@ -165,6 +166,10 @@ const memoryController = {
 
     try {
       validator.validate(req.body, rule);
+      const foundMemory = await service.memory.findOne({ _id: req.body._id });
+      if (!foundMemory) {
+        throw new Error('Memory ID is not exist');
+      }
       const memory = await service.memory.updateOne(req.body);
       res.json(memory);
     } catch (error) {

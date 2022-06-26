@@ -94,6 +94,7 @@ const competitorController = {
   },
   async modifyCompetitor(req, res) {
     const rule = {
+      _id: idRule,
       name: {
         type: 'forbidden'
       },
@@ -117,6 +118,10 @@ const competitorController = {
 
     try {
       validator.validate(req.body, rule);
+      const foundCompetitor = await service.competitor.findOne({ _id: req.body._id });
+      if (!foundCompetitor) {
+        throw new Error('Competitor ID is not exist');
+      }
       const competitor = await service.competitor.updateOne(req.body);
       res.json(competitor);
     } catch (error) {

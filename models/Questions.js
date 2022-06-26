@@ -17,10 +17,8 @@ const QuestionSchema = new mongoose.Schema({
     type: Number,
     required: true
   },
-  // FIXME: change type
   createTime: {
     type: Date,
-    // required: true,
     default: Date.now
   }
 });
