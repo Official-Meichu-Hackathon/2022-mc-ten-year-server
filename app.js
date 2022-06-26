@@ -10,9 +10,10 @@ const app = express();
 // Connect to MongoDB
 connectMongo();
 
-// Body Parser
+// Body Parser (image/jpeg for jpg)
 app.use(express.json());
 app.use(express.raw({ type: 'application/pdf', limit: '5mb' }));
+app.use(express.raw({ type: 'image/png', limit: '10mb' }));
 
 // Router
 app.use(router);
