@@ -54,7 +54,8 @@ const staffController = {
     try {
       validator.validate(req.body, rule);
       const staff = await service.staff.findOne(req.body);
-      res.json(staff);
+      if (!staff) res.json({ message: 'staff non-exist in DB' });
+      else res.json(staff);
     } catch (error) {
       logger.error('[Staff Controller] Failed to getStaff:', error);
       res.status(400).json({ message: `Failed to getStaff, ${error}` });
@@ -132,8 +133,8 @@ const staffController = {
       const staff = await service.staff.deleteOne(req.body);
       res.json(staff);
     } catch (error) {
-      logger.error('[User Controller] Failed to removeUser:', error);
-      res.status(400).json({ message: `Failed to removeUser, ${error}` });
+      logger.error('[Staff Controller] Failed to removeStaff:', error);
+      res.status(400).json({ message: `Failed to removeStaff, ${error}` });
     }
   },
   async removeStaffs(req, res) {
@@ -146,7 +147,7 @@ const staffController = {
 
     try {
       validator.validate(req.body, rule);
-      req.body.filter = { ...req.body, isAdmin: true };
+      req.body.filter = { ...req.body };
       const staff = await service.staff.deleteMany(req.body);
       res.json(staff);
     } catch (error) {
