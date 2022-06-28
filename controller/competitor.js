@@ -40,8 +40,11 @@ const competitorController = {
     try {
       validator.validate(req.body, rule);
       const found = await service.competitor.findOne({ name: req.body.name });
+      const teamFound = await service.team.findOne({ _id: req.body.team_id });
       if (found) {
         throw new Error('competitor already in use');
+      } else if (!teamFound) {
+        throw new Error('team_id non-exist in DB');
       }
       const body = await service.competitor.create(req.body);
       res.json(body);
@@ -57,7 +60,8 @@ const competitorController = {
     try {
       validator.validate(req.body, rule);
       const competitor = await service.competitor.findOne(req.body);
-      res.json(competitor);
+      if (!competitor) res.json({ message: 'competitor non-exist in DB' });
+      else res.json(competitor);
     } catch (error) {
       logger.error('[Competitor Controller] Failed to getCompetitor:', error);
       res.status(400).json({ message: `Failed to getCompetitor, ${error}` });
