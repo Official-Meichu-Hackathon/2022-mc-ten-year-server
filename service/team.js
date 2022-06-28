@@ -54,7 +54,7 @@ const teamService = {
     try {
       const result = await model.Teams.deleteOne(filter).lean();
       logger.info('[Team Service] Delete team successfully');
-      return { success: result.acknowledged };
+      return { deletedCount: result.deletedCount };
     } catch (error) {
       logger.error('[Team Service]', error);
       throw new Error(`Failed to delete team in database, ${error}`);

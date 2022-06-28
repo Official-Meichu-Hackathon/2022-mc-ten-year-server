@@ -65,7 +65,8 @@ const teamController = {
     try {
       validator.validate(req.body, rule);
       const team = await service.team.findOne(req.body);
-      res.json(team);
+      if (!team) res.json({ message: 'team non-exist in DB' });
+      else res.json(team);
     } catch (error) {
       logger.error('[Team Controller] Failed to getTeam:', error);
       res.status(400).json({ message: `Failed to getTeam, ${error}` });
