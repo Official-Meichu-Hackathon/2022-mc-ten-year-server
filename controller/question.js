@@ -46,7 +46,8 @@ const questionController = {
     try {
       validator.validate(req.body, rule);
       const question = await service.question.findOne(req.body);
-      res.json(question);
+      if (!question) res.json({ message: 'question non-exist in DB' });
+      else res.json(question);
     } catch (error) {
       logger.error('[Question Controller] Failed to getQuestion:', error);
       res.status(400).json({ message: `Failed to getQuestion, ${error}` });
