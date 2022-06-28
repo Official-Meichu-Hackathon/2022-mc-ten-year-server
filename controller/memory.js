@@ -68,15 +68,13 @@ const memoryController = {
   },
   async getMemory(req, res) {
     const rule = {
-      year: {
-        type: 'number',
-        allowEmpty: false
-      }
+      _id: idRule
     };
     try {
       validator.validate(req.body, rule);
       const team = await service.memory.findOne(req.body);
-      res.json(team);
+      if (!team) res.json({ message: 'memory non-exist in DB' });
+      else res.json(team);
     } catch (error) {
       logger.error('[Memory Controller] Failed to getMemory:', error);
       res.status(400).json({ message: `Failed to getMemory, ${error}` });
@@ -179,10 +177,7 @@ const memoryController = {
   },
   async removeMemory(req, res) {
     const rule = {
-      year: {
-        type: 'number',
-        allowEmpty: false
-      }
+      _id: idRule
     };
     try {
       validator.validate(req.body, rule);
