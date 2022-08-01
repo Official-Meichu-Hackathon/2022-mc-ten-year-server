@@ -16,6 +16,14 @@ const teamController = {
         type: 'string',
         allowEmpty: false
       },
+      email_address: {
+        type: 'string',
+        allowEmpty: false
+      },
+      phone_number: {
+        type: 'string',
+        allowEmpty: false
+      },
       category: {
         type: 'string',
         allowEmpty: false
@@ -105,6 +113,12 @@ const teamController = {
     const rule = {
       _id: idRule,
       teamname: {
+        type: 'forbidden'
+      },
+      email_address: {
+        type: 'forbidden'
+      },
+      phone_number: {
         type: 'forbidden'
       },
       category: {

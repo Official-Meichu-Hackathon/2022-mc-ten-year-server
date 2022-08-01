@@ -5,6 +5,14 @@ const TeamSchema = new mongoose.Schema({
     type: String,
     required: true
   },
+  email_address: {
+    type: String,
+    required: true
+  },
+  phone_number: {
+    type: String,
+    required: true
+  },
   category: {
     type: String,
     required: true
