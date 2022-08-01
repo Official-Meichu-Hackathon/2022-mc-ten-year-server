@@ -53,7 +53,7 @@ const questionService = {
     try {
       const result = await model.Questions.deleteOne(filter).lean();
       logger.info('[Question Service] Delete question successfully');
-      return { success: result.acknowledged };
+      return { deletedCount: result.deletedCount };
     } catch (error) {
       logger.error('[Question Service]', error);
       throw new Error(`Failed to delete question in database, ${error}`);

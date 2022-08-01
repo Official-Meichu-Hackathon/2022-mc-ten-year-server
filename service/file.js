@@ -21,7 +21,13 @@ const fileService = {
     if (!fileTypes.includes(fileType)) throw new Error('Cannot upload file, invalid file type');
 
     // Prevent from same fileName
-    const keyName = `${uuidV4()}_${fileName}.pdf`;
+    let keyName = '';
+    if (fileType === 'ten_year_thumbnail') {
+      keyName = `${uuidV4()}_${fileName}.png`;
+    } else if (fileType === 'ten_year_slide') {
+      keyName = `${uuidV4()}_${fileName}.pdf`;
+    }
+
     const bucketName = formatBucketName(fileType);
 
     const uploadPromise = (Bucket, Key, Body) => new Promise((resolve, reject) => {

@@ -65,7 +65,8 @@ const teamController = {
     try {
       validator.validate(req.body, rule);
       const team = await service.team.findOne(req.body);
-      res.json(team);
+      if (!team) res.json({ message: 'team non-exist in DB' });
+      else res.json(team);
     } catch (error) {
       logger.error('[Team Controller] Failed to getTeam:', error);
       res.status(400).json({ message: `Failed to getTeam, ${error}` });
@@ -102,6 +103,7 @@ const teamController = {
   },
   async modifyTeam(req, res) {
     const rule = {
+      _id: idRule,
       teamname: {
         type: 'forbidden'
       },
@@ -132,6 +134,10 @@ const teamController = {
     //
     try {
       validator.validate(req.body, rule);
+      const foundTeam = await service.team.findOne({ _id: req.body._id });
+      if (!foundTeam) {
+        throw new Error('Team ID is not exist');
+      }
       const team = await service.team.updateOne(req.body);
       res.json(team);
     } catch (error) {

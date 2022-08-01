@@ -95,6 +95,7 @@ const userController = {
 
   async modifyUser(req, res) {
     const rule = {
+      _id: idRule,
       isAdmin: {
         type: 'forbidden'
       },
@@ -131,6 +132,11 @@ const userController = {
         data.goodPost.push(req.body.goodPost);
         req.body.goodPost = data.goodPost;
       }
+      // req.body._id = req.user._id;
+      const foundUser = await service.user.findOne({ _id: req.body._id });
+      if (!foundUser) {
+        throw new Error('User ID is not exist');
+      }
       const user = await service.user.updateOne(req.body);
       res.json(user);
     } catch (error) {
@@ -141,6 +147,7 @@ const userController = {
 
   async modifyCurrentUser(req, res) {
     const rule = {
+      _id: idRule,
       isAdmin: {
         type: 'forbidden'
       },
@@ -175,6 +182,11 @@ const userController = {
         req.body.goodPost = data.goodPost;
       }
       req.body._id = req.user._id;
+      const foundUser = await service.user.findOne({ _id: req.body._id });
+      logger.info('[foundUser]: ', req.body);
+      if (!foundUser) {
+        throw new Error('userID is not exist');
+      }
       const user = await service.user.updateOne(req.body);
       res.json(user);
     } catch (error) {
@@ -210,7 +222,7 @@ const userController = {
     };
     try {
       validator.validate(req.body, rule);
-      req.body.filter = { ...req.body };
+      req.body.filter = { ...req.body, isAdmin: false };
       const user = await service.user.deleteMany(req.body);
       res.json(user);
     } catch (error) {
@@ -239,7 +251,8 @@ const userController = {
   async getCurrentUser(req, res) {
     if (req.user) {
       const user = await service.user.findOne({ _id: req.user._id });
-      res.json(user);
+      if (!user) res.json({ message: 'user non-exist in DB' });
+      else res.json(user);
     } else {
       res.status(400).json({ message: 'Not signed in yet.' });
     }

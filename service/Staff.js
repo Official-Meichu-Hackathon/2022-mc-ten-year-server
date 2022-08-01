@@ -53,7 +53,7 @@ const staffService = {
     try {
       const result = await model.Staffs.deleteOne(filter).lean();
       logger.info('[Staff Service] Delete staff successfully');
-      return { success: result.acknowledged };
+      return { deletedCount: result.deletedCount };
     } catch (error) {
       logger.error('[Staff Service]', error);
       throw new Error(`Failed to delete staff in database, ${error}`);

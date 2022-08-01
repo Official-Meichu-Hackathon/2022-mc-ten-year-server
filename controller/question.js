@@ -46,7 +46,8 @@ const questionController = {
     try {
       validator.validate(req.body, rule);
       const question = await service.question.findOne(req.body);
-      res.json(question);
+      if (!question) res.json({ message: 'question non-exist in DB' });
+      else res.json(question);
     } catch (error) {
       logger.error('[Question Controller] Failed to getQuestion:', error);
       res.status(400).json({ message: `Failed to getQuestion, ${error}` });
@@ -84,9 +85,10 @@ const questionController = {
   },
   async modifyQuestion(req, res) {
     const rule = {
+      _id: idRule,
       question: {
         type: 'string',
-        allowEmpty: false
+        allowEmpty: true
       },
       tags: {
         type: 'array',
@@ -107,6 +109,10 @@ const questionController = {
     };
     try {
       validator.validate(req.body, rule);
+      const foundQuestion = await service.question.findOne({ _id: req.body._id });
+      if (!foundQuestion) {
+        throw new Error('Question ID is not exist');
+      }
       const question = await service.question.updateOne(req.body);
       res.json(question);
     } catch (error) {
@@ -114,7 +120,6 @@ const questionController = {
       res.status(400).json({ message: `Failed to modifyQuestion, ${error}` });
     }
   },
-  // 是否需要是 admin
 
   async removeQuestion(req, res) {
     const rule = {

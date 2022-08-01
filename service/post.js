@@ -53,7 +53,7 @@ const postService = {
     try {
       const result = await model.Posts.deleteOne(filter).lean();
       logger.info('[Post Service] Delete post successfully');
-      return { success: result.acknowledged };
+      return { deletedCount: result.deletedCount };
     } catch (error) {
       logger.error('[Post Service] Failed to delete post in database:', error);
       throw new Error(`Failed to delete post in database, ${error}`);

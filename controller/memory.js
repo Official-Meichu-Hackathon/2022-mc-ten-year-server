@@ -1,7 +1,7 @@
 import logger from '../libs/logger';
 import service from '../service';
 import validator from '../libs/validator';
-/*
+
 const idRule = {
   type: 'multi',
   rules: [
@@ -9,7 +9,7 @@ const idRule = {
     { type: 'object' }
   ]
 };
-*/
+
 const memoryController = {
   async addMemory(req, res) {
     const rule = {
@@ -68,15 +68,13 @@ const memoryController = {
   },
   async getMemory(req, res) {
     const rule = {
-      year: {
-        type: 'number',
-        allowEmpty: false
-      }
+      _id: idRule
     };
     try {
       validator.validate(req.body, rule);
       const team = await service.memory.findOne(req.body);
-      res.json(team);
+      if (!team) res.json({ message: 'memory non-exist in DB' });
+      else res.json(team);
     } catch (error) {
       logger.error('[Memory Controller] Failed to getMemory:', error);
       res.status(400).json({ message: `Failed to getMemory, ${error}` });
@@ -114,6 +112,7 @@ const memoryController = {
 
   async modifyMemory(req, res) {
     const rule = {
+      _id: idRule,
       year: {
         type: 'number',
         allowEmpty: false,
@@ -165,6 +164,10 @@ const memoryController = {
 
     try {
       validator.validate(req.body, rule);
+      const foundMemory = await service.memory.findOne({ _id: req.body._id });
+      if (!foundMemory) {
+        throw new Error('Memory ID is not exist');
+      }
       const memory = await service.memory.updateOne(req.body);
       res.json(memory);
     } catch (error) {
@@ -174,10 +177,7 @@ const memoryController = {
   },
   async removeMemory(req, res) {
     const rule = {
-      year: {
-        type: 'number',
-        allowEmpty: false
-      }
+      _id: idRule
     };
     try {
       validator.validate(req.body, rule);

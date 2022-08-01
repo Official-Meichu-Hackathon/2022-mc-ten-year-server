@@ -53,7 +53,7 @@ const competitorService = {
     try {
       const result = await model.Competitors.deleteOne(filter).lean();
       logger.info('[Competitor Service] Delete competitor successfully');
-      return { success: result.acknowledged };
+      return { deletedCount: result.deletedCount };
     } catch (error) {
       logger.error('[Competitor Service]', error);
       throw new Error(`Failed to delete competitor in database, ${error}`);

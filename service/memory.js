@@ -54,7 +54,7 @@ const memoryService = {
     try {
       const result = await model.Memories.deleteOne(filter).lean();
       logger.info('[Memory Service] Delete memory successfully');
-      return { success: result.acknowledged };
+      return { deletedCount: result.deletedCount };
     } catch (error) {
       logger.error('[Memory Service]', error);
       throw new Error(`Failed to delete memory in database, ${error}`);

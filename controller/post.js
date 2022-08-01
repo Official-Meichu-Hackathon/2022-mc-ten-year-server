@@ -78,15 +78,15 @@ const postController = {
 
     try {
       validator.validate(req.body, rule);
-      // const foundTeam = await service.team.findOne({ _id: req.body.team_id });
-      // if (!foundTeam) {
-      //  throw new Error('team not found');
-      // }
+      const foundTeam = await service.team.findOne({ _id: req.body.team_id });
+      if (!foundTeam) {
+        throw new Error('team_id not exist in DB');
+      }
       const body = await service.post.create(req.body);
       res.json(body);
     } catch (error) {
-      logger.error('[Post Controller] Failed to addpost:', error);
-      res.status(400).json({ message: `Failed to addpost, ${error}` });
+      logger.error('[Post Controller] Failed to addPost:', error);
+      res.status(400).json({ message: `Failed to addPost, ${error}` });
     }
   },
   async getPost(req, res) {
@@ -97,7 +97,8 @@ const postController = {
     try {
       validator.validate(req.body, rule);
       const post = await service.post.findOne(req.body);
-      res.json(post);
+      if (!post) res.json({ message: 'post non-exist in DB' });
+      else res.json(post);
     } catch (error) {
       logger.error('[Post Controller] Failed to getPost:', error);
       res.status(400).json({ message: `Failed to getPost, ${error}` });
@@ -144,10 +145,12 @@ const postController = {
 
     try {
       validator.validate(req.body, rule);
-      // const foundTeam = await service.team.findOne({ _id: req.body.team_id });
-      // if (!foundTeam) {
-      //  throw new Error('team not found');
-      // }
+      if (req.body.team_id) {
+        const foundTeam = await service.team.findOne({ _id: req.body.team_id });
+        if (!foundTeam) {
+          throw new Error('team_id non-exist in DB');
+        }
+      }
       if (req.body.thumbnail_path != null && req.body.thumbnail_path === '') req.body.thumbnail_path = 'placeHolder';
       const post = await service.post.updateOne(req.body);
       res.json(post);
