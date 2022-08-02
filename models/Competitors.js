@@ -5,6 +5,10 @@ const CompetitorSchema = new mongoose.Schema({
     type: String,
     required: true
   },
+  is_leader: {
+    type: Boolean,
+    required: true
+  },
   phone_number: {
     type: String,
     required: false

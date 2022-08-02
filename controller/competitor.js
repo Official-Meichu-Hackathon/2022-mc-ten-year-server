@@ -16,6 +16,10 @@ const competitorController = {
         type: 'string',
         allowEmpty: false
       },
+      is_leader: {
+        type: 'boolean',
+        allowEmpty: false
+      },
       phone_number: {
         type: 'string',
         allowEmpty: true
@@ -100,6 +104,9 @@ const competitorController = {
     const rule = {
       _id: idRule,
       name: {
+        type: 'forbidden'
+      },
+      is_leader: {
         type: 'forbidden'
       },
       phone_number: {
