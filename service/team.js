@@ -59,6 +59,16 @@ const teamService = {
       logger.error('[Team Service]', error);
       throw new Error(`Failed to delete team in database, ${error}`);
     }
+  },
+  async deleteMany(filter) {
+    try {
+      const result = await model.Teams.deleteMany(filter).lean();
+      logger.info('[Team Service] Delete teams successfully');
+      return { deletedCount: result.deletedCount };
+    } catch (error) {
+      logger.error('[Team Service] Failed to delete teams in database:', error);
+      throw new Error(`Failed to delete teams in database, ${error}`);
+    }
   }
 };
 

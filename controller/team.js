@@ -171,6 +171,17 @@ const teamController = {
       logger.error('[Team Controller] Failed to removeTeam:', error);
       res.status(400).json({ message: `Failed to removeTeam, ${error}` });
     }
+  },
+
+  // just to remove all teams
+  async removeTeams(req, res) {
+    try {
+      const team = await service.team.deleteMany();
+      res.json(team);
+    } catch (error) {
+      logger.error('[Team Controller] Failed to removeTeams:', error);
+      res.status(400).json({ message: `Failed to removeTeams, ${error}` });
+    }
   }
 };
 
