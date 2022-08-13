@@ -9,5 +9,6 @@ competitorRouter.post('/getCompetitor', auth(true), controller.competitor.getCom
 competitorRouter.post('/getCompetitors', auth(true), controller.competitor.getCompetitors);
 competitorRouter.post('/modifyCompetitor', auth(true), controller.competitor.modifyCompetitor);
 competitorRouter.post('/removeCompetitor', auth(true), controller.competitor.removeCompetitor);
+competitorRouter.post('/removeCompetitors', auth(true), controller.competitor.removeCompetitors);
 
 export default competitorRouter;

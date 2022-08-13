@@ -152,6 +152,16 @@ const competitorController = {
       logger.error('[Competitor Controller] Failed to removeCompetitor:', error);
       res.status(400).json({ message: `Failed to removeCompetitor, ${error}` });
     }
+  },
+  // just to remove all competitors
+  async removeCompetitors(req, res) {
+    try {
+      const competitor = await service.competitor.deleteMany();
+      res.json(competitor);
+    } catch (error) {
+      logger.error('[Competitor Controller] Failed to removeCompetitors:', error);
+      res.status(400).json({ message: `Failed to removeCompetitors, ${error}` });
+    }
   }
 };
 
