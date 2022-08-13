@@ -23,7 +23,6 @@ const fileRule = {
 };
 
 const fileController = {
-  // TODO:fix: support pdf
   async addFile(req, res) {
     const { filename: fileName, filetype: fileType } = req.headers;
     const params = {

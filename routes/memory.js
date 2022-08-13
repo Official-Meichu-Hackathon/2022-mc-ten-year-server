@@ -9,5 +9,6 @@ memoryRouter.post('/getMemory', controller.memory.getMemory);
 memoryRouter.post('/getMemories', controller.memory.getMemories);
 memoryRouter.post('/modifyMemory', auth(true), controller.memory.modifyMemory);
 memoryRouter.post('/removeMemory', auth(true), controller.memory.removeMemory);
+memoryRouter.post('/removeMemories', auth(true), controller.memory.removeMemories);
 
 export default memoryRouter;

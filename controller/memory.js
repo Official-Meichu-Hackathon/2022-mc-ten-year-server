@@ -187,6 +187,16 @@ const memoryController = {
       logger.error('[Memory Controller] Failed to removeMemory:', error);
       res.status(400).json({ message: `Failed to removeMemory, ${error}` });
     }
+  },
+  // just to remove all competitors
+  async removeMemories(req, res) {
+    try {
+      const memory = await service.memory.deleteMany();
+      res.json(memory);
+    } catch (error) {
+      logger.error('[Competitor Controller] Failed to removeMemories:', error);
+      res.status(400).json({ message: `Failed to removeMemories, ${error}` });
+    }
   }
 };
 

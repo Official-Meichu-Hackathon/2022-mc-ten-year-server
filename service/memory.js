@@ -59,6 +59,16 @@ const memoryService = {
       logger.error('[Memory Service]', error);
       throw new Error(`Failed to delete memory in database, ${error}`);
     }
+  },
+  async deleteMany(filter) {
+    try {
+      const result = await model.Memories.deleteMany(filter).lean();
+      logger.info('[Memory Service] Delete memories successfully');
+      return { deletedCount: result.deletedCount };
+    } catch (error) {
+      logger.error('[Memory Service] Failed to delete memories in database:', error);
+      throw new Error(`Failed to delete memories in database, ${error}`);
+    }
   }
 };
 
