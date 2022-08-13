@@ -45,7 +45,7 @@ app.get('/', async (req, res) => {
     range: 'Sheet1'
   });
 
-  res.json(getRows);
+  res.json({ data: getRows.data, dataSet: getRows.data.values.length - 1 });
 
   // res.json({ message: 'Welcome to MC-Ten-year-Server!' });
 });

@@ -6,6 +6,7 @@ import question from './question';
 import competitor from './competitor';
 import memory from './memory';
 import staff from './staff';
+import googleForm from './googleForm';
 
 export default {
   user,
@@ -15,5 +16,6 @@ export default {
   question,
   competitor,
   memory,
-  staff
+  staff,
+  googleForm
 };

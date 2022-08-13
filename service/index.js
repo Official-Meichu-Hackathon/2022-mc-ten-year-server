@@ -6,5 +6,6 @@ import question from './question';
 import competitor from './competitor';
 import memory from './memory';
 import staff from './staff';
+import googleForm from './api/googleForm';
 
-export default { user, file, post, team, question, competitor, memory, staff };
+export default { user, file, post, team, question, competitor, memory, staff, googleForm };

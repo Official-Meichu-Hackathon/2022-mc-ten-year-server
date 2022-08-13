@@ -1,44 +1,41 @@
-import path from 'path';
-import google from '@googleapis/forms';
+import { google } from 'googleapis';
 
-const formID = '1dWCqmthEMLuhH-_226gjYLr-XTgTmeGT5pM8Q74VqZ0';
-const __dirname = process.cwd();
+const spreadsheetId = '1f4xbdBe3P5e0MA5T-F8wqRGgDR9UCQ_QkYm08ewd-Ek';
 
-async function getData() {
-  const auth = new google.auth.GoogleAuth({
-    keyFilename: path.join(__dirname, '/credentials.json'),
-    scopes: [
-      'https://www.googleapis.com/auth/script.external_request',
-      'https://www.googleapis.com/auth/drive',
-      'https://www.googleapis.com/auth/drive.readonly',
-      'https://www.googleapis.com/auth/forms.body',
-      'https://www.googleapis.com/auth/forms.body.readonly',
-      'https://www.googleapis.com/auth/forms.responses.readonly'
-    ]
-  });
+const googleFormService = {
+  async readAllData() {
+    try {
+      const auth = new google.auth.GoogleAuth({
+        keyFile: 'credentials.json',
+        scopes: 'https://www.googleapis.com/auth/spreadsheets'
+      });
 
-  const authClient = await auth.getClient();
+      // create client instance for auth
+      const client = await auth.getClient();
 
-  const forms = google.forms({
-    version: 'v1',
-    auth: authClient
-  });
+      // instance of Google Sheet API
+      const googleSheets = google.sheets({
+        version: 'v4',
+        auth: client
+      });
 
-  // the response from google form
-  const res = await forms.forms.responses.list({ formId: formID });
-  const ans = res.data.responses;
+      // get Rows
+      const result = await googleSheets.spreadsheets.values.get({
+        auth,
+        spreadsheetId,
+        majorDimension: 'ROWS',
+        range: 'Sheet1'
+      });
 
-  // retrieve the response
-  ans.forEach((x) => {
-    const value = Object.values(x.answers);
-    for (let i = 0; i < value.length; i += 1) {
-      console.log(value[i]);
+      // remove the first row of the sheet
+      result.data.values.shift();
+
+      return { dataSet: result.data.values.length, data: result.data.values };
+    } catch (error) {
+      logger.error('[GoogleForm Service] Failed to read all data to database:', error);
+      throw new Error(`Failed to read data from googleForm, ${error}`);
     }
-  });
+  }
+};
 
-  console.log(Object.values(res.data.responses[0].answers)[3].textAnswers.answers[0].value);
-
-  return res.data;
-}
-
-export default getData;
+export default googleFormService;

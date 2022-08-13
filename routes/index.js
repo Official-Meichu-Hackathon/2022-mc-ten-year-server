@@ -9,6 +9,7 @@ import questionRouter from './question';
 import competitorRouter from './competitor';
 import memoryRouter from './memory';
 import staffRouter from './staff';
+import googleFormRouter from './googleForm';
 
 const router = express.Router();
 
@@ -21,6 +22,7 @@ router.use('/team', teamRouter);
 router.use('/question', questionRouter);
 router.use('/competitor', competitorRouter);
 router.use('/memory', memoryRouter);
-router.use('/Staff', staffRouter);
+router.use('/staff', staffRouter);
+router.use('/googleForm', googleFormRouter);
 
 export default router;
