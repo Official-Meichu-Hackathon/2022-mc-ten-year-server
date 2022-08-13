@@ -38,8 +38,8 @@ const googleFormController = {
         result.post = postBody;
 
         // Competitor
+        let num = 13;
         for (let i = 0; i < 6; i += 1) {
-          let num = 13;
           let competitorNum = 0;
           if (x[num].length === 0) {
             num += 5;
@@ -58,6 +58,7 @@ const googleFormController = {
             const newProp = `competitor-${competitorNum + 1}`;
             result[newProp] = temp;
             competitorNum += 1;
+            num += 2;
           }
         }
 
