@@ -58,6 +58,16 @@ const questionService = {
       logger.error('[Question Service]', error);
       throw new Error(`Failed to delete question in database, ${error}`);
     }
+  },
+  async deleteMany(filter) {
+    try {
+      const result = await model.Questions.deleteMany(filter).lean();
+      logger.info('[Question Service] Delete questions successfully');
+      return { deletedCount: result.deletedCount };
+    } catch (error) {
+      logger.error('[Question Service] Failed to delete questions in database:', error);
+      throw new Error(`Failed to delete questions in database, ${error}`);
+    }
   }
 };
 

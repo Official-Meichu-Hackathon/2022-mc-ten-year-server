@@ -133,6 +133,17 @@ const questionController = {
       logger.error('[Question Controller] Failed to removeQuestion:', error);
       res.status(400).json({ message: `Failed to removeQuestion, ${error}` });
     }
+  },
+
+  // just to remove all questions
+  async removeQuestions(req, res) {
+    try {
+      const question = await service.question.deleteMany();
+      res.json(question);
+    } catch (error) {
+      logger.error('[Question Controller] Failed to removeQuestions:', error);
+      res.status(400).json({ message: `Failed to removeQuestions, ${error}` });
+    }
   }
 };
 
