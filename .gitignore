@@ -1,8 +1,9 @@
 node_modules
 public/*
 !public/.gitkeep
-.env.production
+.env.prod
+.env.dev
 private.key
 public.key.pub
-dev_tenYear.key
-dev_tenYear.key.pub
+prod_tenYear.key
+prod_tenYear.key.pub
