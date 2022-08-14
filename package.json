@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "start": "cross-env NODE_ENV=production node --es-module-specifier-resolution=node app.js",
-    "dev": "npm run docker-compose-dev:up && cross-env NODE_ENV=prod nodemon --es-module-specifier-resolution=node app.js",
+    "dev": "npm run docker-compose-dev:up && cross-env NODE_ENV=dev nodemon --es-module-specifier-resolution=node app.js",
     "docker-compose-dev:up": "docker-compose -f docker-compose.dev.yml up -d",
     "docker-compose-dev:down": "docker-compose -f docker-compose.dev.yml down",
     "local-test": "nodemon --experimental-vm-modules node_modules/jest/bin/jest.js --detectOpenHandles --forceExit"
