@@ -1,5 +1,14 @@
 version: "3.3"
 services:
+  server:
+    build: .
+    ports:
+      - 7002:7002
+    networks:
+      - mc-ten-year
+    volumes:
+      - ./:/app
+    restart: unless-stopped
   mongo:
     container_name: mc-ten-year-mongo
     image: mongo:5.0
@@ -8,9 +17,15 @@ services:
       - MONGO_INITDB_ROOT_PASSWORD=password
     volumes:
       - mc-ten-year-mongo:/data/db
-    ports:
-      - 27017:27017
+    expose:
+      - "27017"
+    networks:
+      - mc-ten-year
     restart: on-failure
     command: mongod
+
 volumes:
   mc-ten-year-mongo:
+
+networks:
+  mc-ten-year:
