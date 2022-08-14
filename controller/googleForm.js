@@ -36,7 +36,7 @@ const googleFormController = {
         await model.GoogleForms.updateOne({ _id: totalId }, { total: form.dataSet }).lean();
 
         form.data.forEach(async (x) => {
-        // Team
+          // Team
           const teamBody = await service.team.create({
             teamname: x[4],
             email_address: x[11],
@@ -49,17 +49,32 @@ const googleFormController = {
             upvote: 0,
             award: x[3]
           });
-
           result.team = teamBody;
+
+          // google drive service (pdf)
+          const slideTemp = x[9].substring(x[9].indexOf('=') + 1);
+          const slide = await service.googleDrive.uploadFile(slideTemp, 'application/pdf');
+          const pdfResult = await service.file.create({ file: slide.data, fileName: x[6], fileType: 'ten_year_slide' });
+
+          // google drive service (png)
+          let imageResult = {};
+          if (x[7].length === 0) {
+            imageResult.url = '';
+          } else {
+            const thumbTemp = x[7].substring(x[7].indexOf('=') + 1);
+            const thumbnail = await service.googleDrive.uploadFile(thumbTemp, 'image/png');
+            imageResult = await service.file.create({
+              file: thumbnail.data, fileName: x[6], fileType: 'ten_year_thumbnail' });
+          }
 
           // Post
           const postBody = await service.post.create({
             name: x[6],
             description: x[8],
             short_description: x[8].substring(0, 30),
-            slide: x[9],
+            slide: pdfResult.url,
             link: x[10],
-            thumbnail_path: x[7],
+            thumbnail_path: imageResult.url,
             team_id: teamBody._id
           });
 
@@ -73,7 +88,7 @@ const googleFormController = {
               num += 5;
               i += 1;
             } else {
-            // eslint-disable-next-line no-await-in-loop
+              // eslint-disable-next-line no-await-in-loop
               const temp = await service.competitor.create({
                 name: x[num],
                 is_leader: (num === 13),

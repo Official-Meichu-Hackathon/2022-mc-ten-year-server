@@ -21,7 +21,6 @@ const AuthenticationMiddleware = (checkAdmin, stricted = true) => async (req, re
       if (!payload.isAdmin && checkAdmin) { throw new Error('User not Admin'); }
 
       const found = await service.user.findOne({ _id: payload._id });
-      console.log(found);
       if (found) {
         req.user = payload;
       } else {

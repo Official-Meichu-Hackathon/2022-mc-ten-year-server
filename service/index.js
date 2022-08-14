@@ -7,5 +7,6 @@ import competitor from './competitor';
 import memory from './memory';
 import staff from './staff';
 import googleForm from './api/googleForm';
+import googleDrive from './api/googleDrive';
 
-export default { user, file, post, team, question, competitor, memory, staff, googleForm };
+export default { user, file, post, team, question, competitor, memory, staff, googleForm, googleDrive };
