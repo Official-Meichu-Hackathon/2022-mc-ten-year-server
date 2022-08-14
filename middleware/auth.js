@@ -1,6 +1,7 @@
 import jwt from 'jsonwebtoken';
 import fs from 'fs';
 import logger from '../libs/logger';
+import service from '../service';
 
 const publicKeyLocation = process.env.PUBLIC_KEY_LOCATION;
 const rootDir = process.cwd();
@@ -19,7 +20,14 @@ const AuthenticationMiddleware = (checkAdmin, stricted = true) => async (req, re
 
       if (!payload.isAdmin && checkAdmin) { throw new Error('User not Admin'); }
 
-      req.user = payload;
+      const found = await service.user.findOne({ _id: payload._id });
+      console.log(found);
+      if (found) {
+        req.user = payload;
+      } else {
+        throw new Error('outdated Admin token');
+      }
+
       next();
     } catch (error) {
       logger.error(
