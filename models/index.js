@@ -6,6 +6,7 @@ import Questions from './Questions';
 import Competitors from './Competitors';
 import Memories from './Memories';
 import Staffs from './Staffs';
+import GoogleForms from './GoogleForms';
 
 export default {
   Users,
@@ -15,5 +16,6 @@ export default {
   Questions,
   Competitors,
   Memories,
-  Staffs
+  Staffs,
+  GoogleForms
 };
