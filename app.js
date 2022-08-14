@@ -4,6 +4,7 @@ import router from './routes';
 import connectMongo from './libs/connect_mongo';
 import './libs/config';
 import fileService from './service/file';
+import googleInit from './libs/googleFormTotalInit';
 
 const app = express();
 
@@ -24,6 +25,7 @@ app.get('/', async (req, res) => {
 if (process.env.NODE_ENV !== 'test') {
   app.listen(process.env.PORT, () => {
     fileService.S3Config();
+    googleInit.count();
     logger.info(`Server is running at port ${process.env.PORT}`);
   });
 }

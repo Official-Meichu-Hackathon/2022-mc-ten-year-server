@@ -1,20 +1,14 @@
 import logger from '../libs/logger';
 import service from '../service';
 import model from '../models';
+import googleInit from '../libs/googleFormTotalInit';
 
-const totalId = '62f83bc2b844dd2b523c05dc';
 const googleFormController = {
   async readAllData(req, res) {
     const result = {};
     try {
+      const totalId = await googleInit.count();
       const form = await service.googleForm.readAllData();
-
-      // 寫死
-      // const totalId = await model.GoogleForms.create({
-      //   total: form.dataSet
-      // });
-
-      // console.log(totalId);
 
       const before = await model.GoogleForms.findOne({
         _id: totalId
@@ -115,6 +109,7 @@ const googleFormController = {
     }
   },
   async reset(req, res) {
+    const totalId = await googleInit.count();
     const result = await model.GoogleForms.updateOne({ _id: totalId }, { total: 0 }).lean();
     res.json(result);
   }
