@@ -5,6 +5,14 @@ const QuestionSchema = new mongoose.Schema({
     type: String,
     required: true
   },
+  description: {
+    type: String,
+    required: true
+  },
+  name: {
+    type: String,
+    default: 'Meta'
+  },
   tags: {
     type: Array,
     required: false

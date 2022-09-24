@@ -16,6 +16,14 @@ const questionController = {
         type: 'string',
         allowEmpty: false
       },
+      description: {
+        type: 'string',
+        allowEmpty: false
+      },
+      name: {
+        type: 'string',
+        allowEmpty: true
+      },
       tags: {
         type: 'array',
         allowEmpty: true
@@ -87,6 +95,14 @@ const questionController = {
     const rule = {
       _id: idRule,
       question: {
+        type: 'string',
+        allowEmpty: true
+      },
+      description: {
+        type: 'string',
+        allowEmpty: true
+      },
+      name: {
         type: 'string',
         allowEmpty: true
       },
