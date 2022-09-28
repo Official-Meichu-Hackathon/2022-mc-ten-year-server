@@ -5,7 +5,7 @@ import team from './team';
 import question from './question';
 import competitor from './competitor';
 import memory from './memory';
-import staff from './staff';
+import staff from './Staff';
 import googleForm from './api/googleForm';
 import googleDrive from './api/googleDrive';
 

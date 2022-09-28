@@ -7,98 +7,76 @@ const googleFormController = {
   async readAllData(req, res) {
     const result = {};
     try {
-      const totalId = await googleInit.count();
       const form = await service.googleForm.readAllData();
 
-      const before = await model.GoogleForms.findOne({
-        _id: totalId
+      const x = form.data[0];
+      // Team
+      const teamBody = await service.team.create({
+        teamname: x[4],
+        email_address: x[11],
+        phone_number: x[14],
+        category: x[2],
+        year: x[1],
+        tag: x[12],
+        description: x[5],
+        ctr: 0,
+        upvote: 0,
+        award: x[3]
+      });
+      result.team = teamBody;
+
+      // google drive service (pdf)
+      const slideTemp = x[9].substring(x[9].indexOf('=') + 1);
+      const slide = await service.googleDrive.uploadFile(slideTemp, 'application/pdf');
+      const pdfResult = await service.file.create({ file: slide.data, fileName: x[6], fileType: 'ten_year_slide' });
+
+      // google drive service (png)
+      let imageResult = {};
+      if (x[7].length === 0) {
+        imageResult.url = '';
+      } else {
+        const thumbTemp = x[7].substring(x[7].indexOf('=') + 1);
+        const thumbnail = await service.googleDrive.uploadFile(thumbTemp, 'image/png');
+        imageResult = await service.file.create({
+          file: thumbnail.data, fileName: x[6], fileType: 'ten_year_thumbnail' });
+      }
+
+      // Post
+      const postBody = await service.post.create({
+        name: x[6],
+        description: x[8],
+        short_description: x[8].substring(0, 30),
+        slide: pdfResult.url,
+        link: x[10],
+        thumbnail_path: imageResult.url,
+        team_id: teamBody._id
       });
 
-      // the number of dataSets have been collected during last time
-      const { total } = before;
+      result.post = postBody;
 
-      if (total === form.dataSet) {
-        result.message = { message: 'no new dataSet to be read',
-          dataSet: form.dataSet };
-      } else {
-      // avoid reading in repeated records
-        for (let i = 0; i < total; i += 1) {
-          form.data.shift();
-        }
-
-        // update the new record number
-        await model.GoogleForms.updateOne({ _id: totalId }, { total: form.dataSet }).lean();
-
-        form.data.forEach(async (x) => {
-          // Team
-          const teamBody = await service.team.create({
-            teamname: x[4],
-            email_address: x[11],
-            phone_number: x[14],
-            category: x[2],
-            year: x[1],
-            tag: x[12],
-            description: x[5],
-            ctr: 0,
-            upvote: 0,
-            award: x[3]
-          });
-          result.team = teamBody;
-
-          // google drive service (pdf)
-          const slideTemp = x[9].substring(x[9].indexOf('=') + 1);
-          const slide = await service.googleDrive.uploadFile(slideTemp, 'application/pdf');
-          const pdfResult = await service.file.create({ file: slide.data, fileName: x[6], fileType: 'ten_year_slide' });
-
-          // google drive service (png)
-          let imageResult = {};
-          if (x[7].length === 0) {
-            imageResult.url = '';
-          } else {
-            const thumbTemp = x[7].substring(x[7].indexOf('=') + 1);
-            const thumbnail = await service.googleDrive.uploadFile(thumbTemp, 'image/png');
-            imageResult = await service.file.create({
-              file: thumbnail.data, fileName: x[6], fileType: 'ten_year_thumbnail' });
-          }
-
-          // Post
-          const postBody = await service.post.create({
-            name: x[6],
-            description: x[8],
-            short_description: x[8].substring(0, 30),
-            slide: pdfResult.url,
-            link: x[10],
-            thumbnail_path: imageResult.url,
+      // Competitor
+      let num = 13;
+      for (let i = 0; i < 6; i += 1) {
+        let competitorNum = 0;
+        if (x[num].length === 0) {
+          num += 5;
+          i += 1;
+        } else {
+          // eslint-disable-next-line no-await-in-loop
+          const temp = await service.competitor.create({
+            name: x[num],
+            is_leader: (num === 13),
+            phone_number: x[num += 1],
+            email_address: x[num += 1],
+            feedback: x[num += 1],
             team_id: teamBody._id
           });
 
-          result.post = postBody;
-
-          // Competitor
-          let num = 13;
-          for (let i = 0; i < 6; i += 1) {
-            let competitorNum = 0;
-            if (x[num].length === 0) {
-              num += 5;
-              i += 1;
-            } else {
-              // eslint-disable-next-line no-await-in-loop
-              const temp = await service.competitor.create({
-                name: x[num],
-                is_leader: (num === 13),
-                phone_number: x[num += 1],
-                email_address: x[num += 1],
-                feedback: x[num += 1],
-                team_id: teamBody._id
-              });
-
-              const newProp = `competitor-${competitorNum + 1}`;
-              result[newProp] = temp;
-              competitorNum += 1;
-              num += 2;
-            }
-          }
-        });
+          const newProp = `competitor-${competitorNum + 1}`;
+          result[newProp] = temp;
+          competitorNum += 1;
+          num += 2;
+        }
       }
 
       // only shows the latest result

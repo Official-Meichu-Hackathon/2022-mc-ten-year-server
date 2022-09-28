@@ -24,11 +24,11 @@ const googleFormService = {
         auth,
         spreadsheetId,
         majorDimension: 'ROWS',
-        range: 'Sheet1'
+        range: 'Sheet1!A12:AU12'
       });
 
       // remove the first row of the sheet
-      result.data.values.shift();
+      // result.data.values.shift();
 
       return { dataSet: result.data.values.length, data: result.data.values };
     } catch (error) {
