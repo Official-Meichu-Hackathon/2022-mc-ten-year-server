@@ -3,7 +3,7 @@ import { google } from 'googleapis';
 const spreadsheetId = '1f4xbdBe3P5e0MA5T-F8wqRGgDR9UCQ_QkYm08ewd-Ek';
 
 const googleFormService = {
-  async readAllData() {
+  async readAllData(num) {
     try {
       const auth = new google.auth.GoogleAuth({
         keyFile: 'credentials.json',
@@ -24,7 +24,7 @@ const googleFormService = {
         auth,
         spreadsheetId,
         majorDimension: 'ROWS',
-        range: 'Sheet1!A12:AU12'
+        range: `Sheet1!${num}:${num}`
       });
 
       // remove the first row of the sheet
