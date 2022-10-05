@@ -12,10 +12,10 @@ const idRule = {
 const userController = {
   async register(req, res) {
     const rule = {
-      isAdmin: {
-        type: 'boolean',
-        allowEmpty: false
-      },
+      // isAdmin: {
+      //   type: 'boolean',
+      //   allowEmpty: false
+      // },
       username: {
         type: 'string',
         allowEmpty: false,
@@ -108,7 +108,8 @@ const userController = {
       password: {
         type: 'string',
         allowEmpty: false,
-        min: 6
+        min: 6,
+        optional: true
       },
       goodPost: { ...idRule, optional: true },
       deletePost: { ...idRule, optional: true }
@@ -157,7 +158,8 @@ const userController = {
       password: {
         type: 'string',
         allowEmpty: false,
-        min: 6
+        min: 6,
+        optional: true
       },
       goodPost: { ...idRule, optional: true },
       deletePost: { ...idRule, optional: true }

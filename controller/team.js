@@ -135,11 +135,13 @@ const teamController = {
       },
       ctr: {
         type: 'number',
-        allowEmpty: false
+        allowEmpty: false,
+        optional: true
       },
       upvote: {
         type: 'number',
-        allowEmpty: false
+        allowEmpty: false,
+        optional: true
       },
       award: {
         type: 'forbidden'
