@@ -4,28 +4,9 @@ services:
     build: .
     ports:
       - 7002:7002
-    networks:
-      - mc-ten-year
     volumes:
       - ./:/app
     restart: unless-stopped
-  mongo:
-    container_name: mc-ten-year-mongo
-    image: mongo:5.0
-    environment:
-      - MONGO_INITDB_ROOT_USERNAME=root
-      - MONGO_INITDB_ROOT_PASSWORD=password
-    volumes:
-      - mc-ten-year-mongo:/data/db
-    expose:
-      - "27017"
-    networks:
-      - mc-ten-year
-    restart: on-failure
-    command: mongod
 
 volumes:
   mc-ten-year-mongo:
-
-networks:
-  mc-ten-year:

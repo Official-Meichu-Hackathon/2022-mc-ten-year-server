@@ -8,8 +8,7 @@ const googleFormController = {
   async readAllData(req, res) {
     const result = {};
     try {
-      const total = 20;
-      for (let index = 2; index <= total; index += 1) {
+      for (let { index } = res; index <= res.total; index += 1) {
         const form = await service.googleForm.readAllData(index);
 
         const x = form.data[0];
