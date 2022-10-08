@@ -1,4 +1,4 @@
-FROM node:18-alphine
+FROM node:18.4
 
 RUN mkdir /app
 WORKDIR /app
